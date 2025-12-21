@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TalentMatch Design System - Effortless Intelligence
-   Warm, human, quietly brilliant. Clean and purposeful.
+/* Auralis Talent Xplore Design System
+   Smart hiring, done with care. Black & Green impact theme.
 */
 
 @layer base {
@@ -44,17 +44,25 @@
 
     --radius: 1rem;
 
+    /* Impact theme - Black & Green */
+    --impact-bg: 0 0% 5%;
+    --impact-text: 142 70% 50%;
+    --impact-text-muted: 142 50% 40%;
+    --impact-border: 142 50% 20%;
+
     /* Custom gradients */
     --gradient-hero: linear-gradient(135deg, hsl(40 25% 97%) 0%, hsl(158 20% 95%) 50%, hsl(40 25% 97%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(40 20% 99%) 0%, hsl(40 15% 96%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(158 35% 38%) 0%, hsl(158 40% 48%) 100%);
     --gradient-warm: linear-gradient(135deg, hsl(18 70% 58%) 0%, hsl(28 75% 60%) 100%);
+    --gradient-impact: linear-gradient(180deg, hsl(0 0% 5%) 0%, hsl(0 0% 8%) 100%);
 
     /* Shadows */
     --shadow-sm: 0 2px 8px hsl(220 15% 18% / 0.04);
     --shadow-md: 0 8px 24px hsl(220 15% 18% / 0.06);
     --shadow-lg: 0 16px 48px hsl(220 15% 18% / 0.08);
     --shadow-glow: 0 0 40px hsl(158 35% 38% / 0.15);
+    --shadow-green-glow: 0 0 60px hsl(142 70% 50% / 0.2);
 
     /* Sidebar */
     --sidebar-background: 40 20% 98%;
