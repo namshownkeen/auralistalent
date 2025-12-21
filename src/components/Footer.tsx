@@ -33,12 +33,12 @@ const Footer = () => {
           <div className="col-span-2 md:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">T</span>
+                <span className="text-primary-foreground font-bold text-lg">A</span>
               </div>
-              <span className="font-semibold text-lg text-foreground">TalentMatch</span>
+              <span className="font-semibold text-lg text-foreground">Auralis Talent Xplore</span>
             </a>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Smart hiring, done with care.
+              Hire like a growing company — not a stressed one.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 TalentMatch. All rights reserved.
+            © 2024 Auralis Talent Xplore. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
