@@ -22,33 +22,39 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-24 md:py-32 bg-background">
+    <section id="services" className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left column - sticky header */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="lg:sticky lg:top-32"
+            className="lg:sticky lg:top-24"
           >
             <span className="text-sm font-medium text-primary mb-4 block">What We Do</span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground mb-6 text-balance">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
               Hiring expertise, across the board
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            <p className="text-muted-foreground leading-relaxed mb-6">
               Whether you're building your first team or your hundredth, 
               we bring the same care and precision to every search.
             </p>
-            <Button variant="hero" size="lg" className="group">
-              Start a Conversation
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 group"
+              asChild
+            >
+              <a href="mailto:alek@auralistalent.com">
+                Start a Conversation
+                <ArrowUpRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
             </Button>
           </motion.div>
 
           {/* Right column - service cards */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {services.map((service, index) => (
               <motion.div
                 key={service.number}
@@ -56,17 +62,17 @@ const Services = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-8 rounded-2xl border border-border/50 hover:border-primary/20 hover:bg-card transition-all duration-300 cursor-pointer"
+                className="group p-6 rounded-xl border border-border/50 hover:border-primary/30 hover:bg-card transition-all duration-300 cursor-pointer"
               >
-                <div className="flex items-start gap-6">
-                  <span className="text-4xl font-light text-primary/30 group-hover:text-primary/50 transition-colors">
+                <div className="flex items-start gap-5">
+                  <span className="text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors">
                     {service.number}
                   </span>
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
                   </div>
                 </div>
               </motion.div>
