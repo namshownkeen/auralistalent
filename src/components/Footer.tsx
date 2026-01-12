@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Mail, Linkedin, Twitter, Phone } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -11,11 +12,6 @@ const footerLinks = {
     { label: "Technical Hiring", href: "#services" },
     { label: "Growth Roles", href: "#services" },
   ],
-  connect: [
-    { label: "LinkedIn", href: "#" },
-    { label: "Twitter", href: "#" },
-    { label: "Contact", href: "#" },
-  ],
 };
 
 const Footer = () => {
@@ -27,19 +23,34 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-10"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10"
         >
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="lg:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">A</span>
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-xl">A</span>
               </div>
               <span className="font-semibold text-lg text-foreground">Auralis Talent Xplore</span>
             </a>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               Hire like a growing company — not a stressed one.
             </p>
+            {/* Social links */}
+            <div className="flex items-center gap-4">
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           {/* Link columns */}
@@ -48,7 +59,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
                   </a>
                 </li>
@@ -61,7 +72,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
                   </a>
                 </li>
@@ -69,16 +80,32 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Contact column */}
           <div>
-            <h4 className="font-medium text-foreground mb-4">Connect</h4>
-            <ul className="space-y-3">
-              {footerLinks.connect.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+            <h4 className="font-medium text-foreground mb-4">Contact Us</h4>
+            <ul className="space-y-4">
+              <li>
+                <a 
+                  href="mailto:alek@auralistalent.com" 
+                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Mail className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>alek@auralistalent.com</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="tel:+1234567890" 
+                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Phone className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>Get in Touch</span>
+                </a>
+              </li>
             </ul>
           </div>
         </motion.div>
@@ -89,10 +116,10 @@ const Footer = () => {
             © 2024 Auralis Talent Xplore. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Terms of Service
             </a>
           </div>

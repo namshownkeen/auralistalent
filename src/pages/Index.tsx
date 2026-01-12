@@ -6,6 +6,7 @@ import Services from "@/components/Services";
 import Testimonial from "@/components/Testimonial";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import QuickContact from "@/components/QuickContact";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
       <Testimonial />
       <CTA />
       <Footer />
+      <QuickContact />
     </main>
   );
 };

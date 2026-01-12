@@ -5,12 +5,12 @@ const approaches = [
   {
     icon: Sparkles,
     title: "Thoughtful Curation",
-    description: "We don't do mass matching. Every candidate is carefully evaluated to ensure they're truly right for the role — and the role is right for them.",
+    description: "We don't do mass matching. Every candidate is carefully evaluated to ensure they're truly right for the role.",
   },
   {
     icon: Brain,
     title: "Deep Understanding",
-    description: "We take the time to understand what great really looks like for your team. Context matters. Culture matters. We get it.",
+    description: "We take the time to understand what great really looks like for your team. Context matters. Culture matters.",
   },
   {
     icon: Target,
@@ -26,7 +26,7 @@ const approaches = [
 
 const Approach = () => {
   return (
-    <section id="approach" className="py-24 md:py-32 bg-card">
+    <section id="approach" className="py-20 md:py-28 bg-card">
       <div className="container mx-auto px-6">
         {/* Section header */}
         <motion.div
@@ -34,20 +34,19 @@ const Approach = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto text-center mb-16"
+          className="max-w-2xl mx-auto text-center mb-12"
         >
           <span className="text-sm font-medium text-primary mb-4 block">Our Approach</span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground mb-6 text-balance">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
             How we find the right people
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            We believe hiring should feel considered, not transactional. 
-            Here's what makes us different.
+          <p className="text-muted-foreground leading-relaxed">
+            We believe hiring should feel considered, not transactional.
           </p>
         </motion.div>
 
         {/* Approach cards */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-4 max-w-5xl mx-auto">
           {approaches.map((approach, index) => (
             <motion.div
               key={approach.title}
@@ -55,13 +54,13 @@ const Approach = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-background rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+              className="group relative bg-background rounded-xl p-6 border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
-                <approach.icon className="w-6 h-6 text-primary" />
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <approach.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">{approach.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{approach.description}</p>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{approach.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{approach.description}</p>
             </motion.div>
           ))}
         </div>
