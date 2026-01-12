@@ -4,7 +4,7 @@ import ImpactAccordion from "@/components/ImpactAccordion";
 import Approach from "@/components/Approach";
 import Services from "@/components/Services";
 import Testimonial from "@/components/Testimonial";
-import CTA from "@/components/CTA";
+import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import QuickContact from "@/components/QuickContact";
 
@@ -17,7 +17,7 @@ const Index = () => {
       <Approach />
       <Services />
       <Testimonial />
-      <CTA />
+      <FinalCTA />
       <Footer />
       <QuickContact />
     </main>

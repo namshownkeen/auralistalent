@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useInView } from "@/hooks/useInView";
 
 const services = [
   {
@@ -19,6 +20,34 @@ const services = [
     description: "Marketing, sales, operations. The people who scale what's working and fix what isn't.",
   },
 ];
+
+const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
+  const { ref, isInView } = useInView(0.2);
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={`group p-6 rounded-xl border border-border/50 interactive-tile teal-glow-hover cursor-pointer wave-highlight ${isInView ? 'in-view' : ''}`}
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      <div className="flex items-start gap-5">
+        <span className="text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors duration-300">
+          {service.number}
+        </span>
+        <div>
+          <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
+            {service.title}
+          </h3>
+          <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const Services = () => {
   return (
@@ -56,26 +85,7 @@ const Services = () => {
           {/* Right column - service cards */}
           <div className="space-y-4">
             {services.map((service, index) => (
-              <motion.div
-                key={service.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-6 rounded-xl border border-border/50 hover:border-primary/30 hover:bg-card transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-start gap-5">
-                  <span className="text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors">
-                    {service.number}
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
-                  </div>
-                </div>
-              </motion.div>
+              <ServiceCard key={service.number} service={service} index={index} />
             ))}
           </div>
         </div>
