@@ -152,4 +152,52 @@
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
+
+  /* Interactive tile/box effects */
+  .interactive-tile {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .interactive-tile:hover {
+    @apply shadow-lg;
+    box-shadow: 0 8px 32px hsl(168 100% 37% / 0.15), 0 0 0 1px hsl(168 100% 37% / 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Wave highlight animation for viewport entry */
+  .wave-highlight {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .wave-highlight.in-view {
+    animation: waveGlow 0.8s ease-out forwards;
+  }
+
+  @keyframes waveGlow {
+    0% {
+      box-shadow: 0 0 0 0 hsl(168 100% 37% / 0);
+    }
+    50% {
+      box-shadow: 0 0 20px 4px hsl(168 100% 37% / 0.3);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(168 100% 37% / 0);
+    }
+  }
+
+  /* Teal glow effect */
+  .teal-glow-hover:hover {
+    box-shadow: 0 0 24px hsl(168 100% 37% / 0.4);
+    border-color: hsl(168 100% 45%);
+  }
+
+  /* Final CTA special styling */
+  .final-cta {
+    @apply bg-black border-2 border-primary transition-all duration-300;
+  }
+
+  .final-cta:hover {
+    box-shadow: 0 0 40px hsl(168 100% 37% / 0.5), inset 0 0 20px hsl(168 100% 37% / 0.1);
+    border-color: hsl(168 100% 55%);
+  }
 }
