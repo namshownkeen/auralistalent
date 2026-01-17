@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import ImpactBubble from "./ImpactBubble";
 
 const Testimonial = () => {
   const { ref, isInView } = useInView(0.3);
@@ -19,11 +20,11 @@ const Testimonial = () => {
           <Quote className="w-10 h-10 text-primary/40 mx-auto mb-6" />
           
           <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground leading-relaxed mb-6">
-            "Working with Auralis Talent Xplore felt different from day one. They didn't just send resumes — 
-            they understood what we were really looking for. Our last three hires have been exceptional."
+            "They didn't just send resumes — they understood what we were really looking for. 
+            Our last three hires have been exceptional."
           </blockquote>
           
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
               <span className="text-sm font-semibold text-primary">SL</span>
             </div>
@@ -32,6 +33,8 @@ const Testimonial = () => {
               <p className="text-xs text-muted-foreground">VP of Engineering, Vertex</p>
             </div>
           </div>
+
+          <ImpactBubble text="Trust builds over time" delay={0.4} size="sm" />
         </motion.div>
       </div>
     </section>

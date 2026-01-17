@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useInView } from "@/hooks/useInView";
+import ImpactBubble from "./ImpactBubble";
 import { 
   DollarSign, Clock, Wrench, TrendingDown,
   Zap, UserCheck, Ban,
@@ -17,6 +18,7 @@ interface AccordionItemData {
   title: string;
   subtitle?: string;
   summary: string;
+  microcopy?: string;
   content: React.ReactNode;
 }
 
@@ -47,6 +49,7 @@ const ImpactAccordion = () => {
       title: "Hiring shouldn't feel this heavy.",
       subtitle: "The Problem",
       summary: "In-house recruiting often means fixed salaries, long ramp-up time, and unused capacity.",
+      microcopy: "Weight lifted, not added",
       content: (
         <div className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -64,10 +67,12 @@ const ImpactAccordion = () => {
               </InteractiveTile>
             ))}
           </div>
-          <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 inline-block">
-            <p className="text-foreground text-sm">
-              💡 Companies hiring under 5–10 roles/year overspend by <span className="font-semibold text-primary">30–45%</span>
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 inline-block">
+              <p className="text-foreground text-sm">
+                💡 Companies hiring under 5–10 roles/year overspend by <span className="font-semibold text-primary">30–45%</span>
+              </p>
+            </div>
           </div>
         </div>
       ),
@@ -77,6 +82,7 @@ const ImpactAccordion = () => {
       title: "What if you only paid for results?",
       subtitle: "The Solution",
       summary: "On-demand expertise, senior-level screening, zero idle cost after roles are filled.",
+      microcopy: "Outcomes, not overhead",
       content: (
         <div className="space-y-6">
           <div className="grid md:grid-cols-3 gap-3">
@@ -104,6 +110,7 @@ const ImpactAccordion = () => {
       title: "In-House Recruiter vs. Hiring Partner",
       subtitle: "The Comparison",
       summary: "Save 35–50% on hiring costs when recruiting is project-based.",
+      microcopy: "Same talent, smarter spend",
       content: (
         <div className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
@@ -142,6 +149,7 @@ const ImpactAccordion = () => {
       title: "Where the Savings Come From",
       subtitle: "Cost Breakdown",
       summary: "No salary commitment, no overhead, faster hiring, better quality.",
+      microcopy: "Efficiency without compromise",
       content: (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
@@ -166,6 +174,7 @@ const ImpactAccordion = () => {
       title: "You approve. We handle the rest.",
       subtitle: "What We Do",
       summary: "We handle sourcing, screening, interviews, negotiations — you make the final decision.",
+      microcopy: "Your time is precious",
       content: (
         <div className="grid md:grid-cols-2 gap-6">
           <div>
@@ -205,6 +214,7 @@ const ImpactAccordion = () => {
       title: "Built for Teams Hiring with Intention",
       subtitle: "Our Sweet Spot",
       summary: "Ideal for companies hiring 1–10 roles per year, scaling carefully with quality focus.",
+      microcopy: "Intentional growth",
       content: (
         <div className="grid sm:grid-cols-2 gap-3">
           {[
@@ -228,6 +238,7 @@ const ImpactAccordion = () => {
       title: "Flexible. Transparent. No Lock-Ins.",
       subtitle: "How We Work",
       summary: "Defined scope, agreed commission, no hidden fees, no long-term obligation.",
+      microcopy: "Clear terms, clean exit",
       content: (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
@@ -251,6 +262,7 @@ const ImpactAccordion = () => {
       title: "Why This Works Better Today",
       subtitle: "The Shift",
       summary: "Remote talent pools, specialized roles, shorter windows, cost-conscious growth.",
+      microcopy: "The world changed",
       content: (
         <div className="space-y-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -286,13 +298,17 @@ const ImpactAccordion = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="text-sm font-medium text-primary mb-4 block">Why Auralis</span>
+          <span className="text-sm font-medium text-primary mb-4 block">The Auralis Difference</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-            A smarter way to hire
+            How we think about hiring
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Hover over each section to learn more about our approach
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+            Less process, more conversation. Less guessing, more knowing.
           </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            <ImpactBubble text="Bridging talent across borders" delay={0.2} size="sm" />
+            <ImpactBubble text="Signal over noise" delay={0.4} size="sm" />
+          </div>
         </motion.div>
 
         <motion.div

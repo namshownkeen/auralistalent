@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowDown } from "lucide-react";
+import ImpactBubble from "./ImpactBubble";
 
 const Hero = () => {
   const scrollToImpact = () => {
-    const element = document.getElementById('why-auralis');
+    const element = document.getElementById('founder');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -44,6 +45,24 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
+          {/* Floating impact bubbles */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="absolute top-1/4 left-4 md:left-12 hidden sm:block"
+          >
+            <ImpactBubble text="Hiring with empathy" delay={1.2} size="sm" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="absolute top-1/3 right-4 md:right-12 hidden sm:block"
+          >
+            <ImpactBubble text="Not volume, precision" delay={1.4} size="sm" />
+          </motion.div>
+
           {/* Main CTA Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -56,16 +75,26 @@ const Hero = () => {
             <span className="text-primary">Grow With Us.</span>
           </motion.h1>
 
-          {/* Subheading */}
+          {/* Subheading - more human */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-6 leading-relaxed"
           >
-            Smart hiring, done with care. We don't just connect talent to opportunity — 
+            We don't just connect talent to opportunity — 
             we make sure it's the right match, for both sides.
           </motion.p>
+
+          {/* Impact bubble inline */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex justify-center mb-12"
+          >
+            <ImpactBubble text="Smart hiring, done with care" delay={0.8} size="lg" />
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
@@ -79,7 +108,7 @@ const Hero = () => {
               className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 rounded-xl group"
               onClick={scrollToImpact}
             >
-              Start Your Hiring Journey
+              Meet Alek
               <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button 
@@ -99,7 +128,7 @@ const Hero = () => {
             className="flex flex-col items-center cursor-pointer"
             onClick={scrollToImpact}
           >
-            <span className="text-sm text-muted-foreground mb-2">Discover Why Auralis</span>
+            <span className="text-sm text-muted-foreground mb-2">Hear the story</span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}

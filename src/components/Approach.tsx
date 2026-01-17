@@ -1,27 +1,32 @@
 import { motion } from "framer-motion";
 import { Sparkles, Brain, Target, Users } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import ImpactBubble from "./ImpactBubble";
 
 const approaches = [
   {
     icon: Sparkles,
     title: "Thoughtful Curation",
-    description: "We don't do mass matching. Every candidate is carefully evaluated to ensure they're truly right for the role.",
+    description: "No mass matching. Every candidate carefully evaluated.",
+    microcopy: "Handpicked, not scraped",
   },
   {
     icon: Brain,
     title: "Deep Understanding",
-    description: "We take the time to understand what great really looks like for your team. Context matters. Culture matters.",
+    description: "Context matters. Culture matters. We take the time.",
+    microcopy: "One conversation, full picture",
   },
   {
     icon: Target,
     title: "Signal Over Noise",
-    description: "Quality always wins. We filter through the noise to surface candidates who genuinely move the needle.",
+    description: "Quality wins. We filter to find who moves the needle.",
+    microcopy: "Less resumes, better fits",
   },
   {
     icon: Users,
     title: "Long-Term Thinking",
-    description: "We're not about quick fixes. We build teams that last — relationships that grow into something meaningful.",
+    description: "Teams that last. Relationships that grow.",
+    microcopy: "Not quick fixes",
   },
 ];
 
@@ -42,7 +47,10 @@ const ApproachCard = ({ approach, index }: { approach: typeof approaches[0]; ind
         <approach.icon className="w-5 h-5 text-primary" />
       </div>
       <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">{approach.title}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed">{approach.description}</p>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-3">{approach.description}</p>
+      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <ImpactBubble text={approach.microcopy} size="sm" delay={0} />
+      </div>
     </motion.div>
   );
 };
@@ -63,9 +71,10 @@ const Approach = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
             How we find the right people
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            We believe hiring should feel considered, not transactional.
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            Considered, not transactional.
           </p>
+          <ImpactBubble text="Hiring with empathy, not volume" delay={0.3} />
         </motion.div>
 
         {/* Approach cards */}
