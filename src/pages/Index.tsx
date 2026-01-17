@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import FounderSection from "@/components/FounderSection";
 import ImpactAccordion from "@/components/ImpactAccordion";
 import Approach from "@/components/Approach";
 import Services from "@/components/Services";
@@ -13,6 +14,7 @@ const Index = () => {
     <main className="min-h-screen bg-background">
       <Navbar />
       <Hero />
+      <FounderSection />
       <ImpactAccordion />
       <Approach />
       <Services />

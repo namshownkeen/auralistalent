@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
+import ImpactBubble from "./ImpactBubble";
 
 const FinalCTA = () => {
   return (
@@ -25,16 +26,21 @@ const FinalCTA = () => {
               </div>
               
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4 transition-colors duration-300 group-hover:text-primary-foreground group-hover:drop-shadow-[0_0_10px_hsl(168_100%_37%)]">
-                Start a Hiring Conversation
+                Let's Have a Conversation
               </h2>
               
               <p className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300">
-                Ready to find the right people? Let's talk.
+                No pitch. No pressure. Just a real conversation about what you're building.
               </p>
               
-              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all duration-300">
+              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all duration-300 mb-6">
                 <span>alek@auralistalent.com</span>
                 <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-2 mt-4 pointer-events-none">
+                <ImpactBubble text="Quick response" delay={0.2} size="sm" />
+                <ImpactBubble text="Zero obligation" delay={0.4} size="sm" />
               </div>
             </motion.div>
           </a>
