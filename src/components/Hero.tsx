@@ -1,113 +1,102 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import RecruiterScene from './hero/RecruiterScene';
-import SlidingMotto from './hero/SlidingMotto';
-import ScrollCue from './hero/ScrollCue';
-import HeroTooltip from './hero/HeroTooltip';
+import Bridge from './hero/Bridge';
+import IdeaBubbles from './hero/IdeaBubbles';
+import { ChevronDown } from 'lucide-react';
 
 const Hero = () => {
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const { scrollY } = useScroll();
   
-  // Transform values for scroll-based animations
+  // Transform values for scroll-based animations - bridge recedes
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const scale = useTransform(scrollY, [0, 400], [1, 0.9]);
-  const y = useTransform(scrollY, [0, 400], [0, 100]);
+  const scale = useTransform(scrollY, [0, 400], [1, 0.85]);
+  const y = useTransform(scrollY, [0, 400], [0, 80]);
 
-  const scrollToFounder = () => {
+  const scrollToNext = () => {
     const element = document.getElementById('founder');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // Tooltip appears periodically when user hovers in center area
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 3000);
-    }, 12000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <motion.section 
       style={{ opacity, scale, y }}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
     >
-      {/* Ambient background effects */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
+      {/* Subtle ambient background */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary/3 via-transparent to-transparent" />
       
-      {/* Subtle grid pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
-        }}
-      />
+      {/* The Bridge */}
+      <Bridge />
       
-      {/* 3D Scene */}
-      <RecruiterScene />
+      {/* Idea Bubbles - appear on hover */}
+      <IdeaBubbles isVisible={isHovering} />
       
-      {/* Side labels */}
+      {/* Central Title - The anchor */}
       <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        className="relative z-20 text-center cursor-default"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
-        <div className="flex flex-col items-start gap-2">
-          <span className="text-xs md:text-sm uppercase tracking-widest text-primary/60 font-medium">
-            Companies
-          </span>
-          <div className="w-8 md:w-12 h-px bg-gradient-to-r from-primary/60 to-transparent" />
-        </div>
+        {/* Main title */}
+        <motion.h1
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-primary tracking-tight"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          Auralis Talent Xplore
+        </motion.h1>
+        
+        {/* Subtle supporting text */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="mt-6 text-sm md:text-base text-muted-foreground/60 font-light tracking-wide"
+        >
+          Connecting people, not just roles.
+        </motion.p>
+        
+        {/* Hover hint */}
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovering ? 0 : 0.4 }}
+          transition={{ duration: 0.5, delay: 2 }}
+          className="block mt-4 text-xs text-muted-foreground/40 tracking-widest uppercase"
+        >
+          hover to explore
+        </motion.span>
       </motion.div>
       
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-20"
-      >
-        <div className="flex flex-col items-end gap-2">
-          <span className="text-xs md:text-sm uppercase tracking-widest text-primary/60 font-medium">
-            Candidates
-          </span>
-          <div className="w-8 md:w-12 h-px bg-gradient-to-l from-primary/60 to-transparent" />
-        </div>
-      </motion.div>
-      
-      {/* Central focus indicator */}
+      {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 2 }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 z-20 text-center"
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        transition={{ duration: 1, delay: 2.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 cursor-pointer"
+        onClick={scrollToNext}
       >
-        <span className="text-xs md:text-sm uppercase tracking-[0.3em] text-primary/40 font-light">
-          The Bridge
-        </span>
+        <div className="flex flex-col items-center gap-3 group">
+          <span className="text-xs text-muted-foreground/50 tracking-[0.2em] uppercase group-hover:text-muted-foreground/70 transition-colors">
+            Scroll to cross the bridge
+          </span>
+          
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <ChevronDown className="w-5 h-5 text-primary/40 group-hover:text-primary/60 transition-colors" />
+          </motion.div>
+        </div>
       </motion.div>
       
-      {/* Tooltip on hover */}
-      <HeroTooltip isVisible={showTooltip} />
-      
-      {/* Sliding Motto */}
-      <SlidingMotto />
-      
-      {/* Scroll cue */}
-      <ScrollCue onScroll={scrollToFounder} />
-      
-      {/* Vignette effect */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-background via-transparent to-background/50 z-10" />
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-background via-transparent to-background/30 z-10" />
     </motion.section>
   );
 };
