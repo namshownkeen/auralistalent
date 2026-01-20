@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Environment } from '@react-three/drei';
 import * as THREE from 'three';
@@ -353,13 +353,74 @@ const CandidateSide = () => {
   );
 };
 
+// Check WebGL availability
+const isWebGLAvailable = (): boolean => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch (e) {
+    return false;
+  }
+};
+
+// Beautiful 2D fallback component
+const Fallback2D = () => {
+  return (
+    <div className="absolute inset-0 z-0 flex items-center justify-center">
+      {/* Central recruiter representation */}
+      <div className="relative">
+        {/* Pulsing glow effect */}
+        <div className="absolute inset-0 animate-pulse">
+          <div className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-primary/20 blur-3xl" />
+        </div>
+        
+        {/* Main figure */}
+        <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/40 flex items-center justify-center backdrop-blur-sm">
+          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary/40 flex items-center justify-center">
+            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-primary animate-pulse" />
+          </div>
+        </div>
+        
+        {/* Connection lines to sides */}
+        <div className="absolute top-1/2 -left-24 md:-left-32 w-20 md:w-28 h-px bg-gradient-to-r from-transparent via-primary/40 to-primary/60 -translate-y-1/2" />
+        <div className="absolute top-1/2 -right-24 md:-right-32 w-20 md:w-28 h-px bg-gradient-to-l from-transparent via-primary/40 to-primary/60 -translate-y-1/2" />
+        
+        {/* Orbiting dots */}
+        <div className="absolute -left-8 top-1/4 w-2 h-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0.2s' }} />
+        <div className="absolute -right-8 top-3/4 w-2 h-2 rounded-full bg-primary/60 animate-pulse" style={{ animationDelay: '0.4s' }} />
+        <div className="absolute -left-12 top-2/3 w-1.5 h-1.5 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: '0.6s' }} />
+        <div className="absolute -right-12 top-1/3 w-1.5 h-1.5 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: '0.8s' }} />
+      </div>
+    </div>
+  );
+};
+
 const RecruiterScene = () => {
+  const [webGLSupported, setWebGLSupported] = useState(true);
+
+  useEffect(() => {
+    setWebGLSupported(isWebGLAvailable());
+  }, []);
+
+  if (!webGLSupported) {
+    return <Fallback2D />;
+  }
+
   return (
     <div className="absolute inset-0 z-0">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
+        onCreated={({ gl }) => {
+          // Additional safety check
+          if (!gl.getContext()) {
+            setWebGLSupported(false);
+          }
+        }}
       >
         <ambientLight intensity={0.4} />
         <pointLight position={[5, 5, 5]} intensity={0.8} color="#00BFA6" />
