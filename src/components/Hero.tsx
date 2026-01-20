@@ -28,8 +28,8 @@ const Hero = () => {
       {/* Subtle ambient background */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/3 via-transparent to-transparent" />
       
-      {/* The Bridge */}
-      <Bridge />
+      {/* The Bridge - pass hover state for glow sync */}
+      <Bridge isHovered={isHovering} />
       
       {/* Idea Bubbles - appear on hover */}
       <IdeaBubbles isVisible={isHovering} />
