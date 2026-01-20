@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 
-const Bridge = () => {
+interface BridgeProps {
+  isHovered?: boolean;
+}
+
+const Bridge = ({ isHovered = false }: BridgeProps) => {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
       {/* Bridge structure */}
@@ -26,6 +30,20 @@ const Bridge = () => {
           />
         </motion.div>
 
+        {/* Ambient glow - syncs with hover/bubble state */}
+        <motion.div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-40 bg-primary/5 blur-3xl -z-10 rounded-full"
+          animate={{
+            opacity: isHovered ? [0.6, 1, 0.6] : [0.3, 0.5, 0.3],
+            scale: isHovered ? [1, 1.15, 1] : [1, 1.05, 1],
+          }}
+          transition={{
+            duration: isHovered ? 2.5 : 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+
         {/* Bridge supports - left */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -34,7 +52,15 @@ const Bridge = () => {
           className="absolute left-[15%] top-1/2 -translate-y-1/2"
         >
           <div className="w-[1px] h-16 bg-gradient-to-b from-primary/40 to-transparent" />
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary/40" />
+          <motion.div 
+            className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary/40"
+            animate={{
+              boxShadow: isHovered 
+                ? ['0 0 8px hsl(var(--primary) / 0.4)', '0 0 16px hsl(var(--primary) / 0.6)', '0 0 8px hsl(var(--primary) / 0.4)']
+                : '0 0 4px hsl(var(--primary) / 0.2)',
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
         </motion.div>
 
         {/* Bridge supports - right */}
@@ -45,11 +71,16 @@ const Bridge = () => {
           className="absolute right-[15%] top-1/2 -translate-y-1/2"
         >
           <div className="w-[1px] h-16 bg-gradient-to-b from-primary/40 to-transparent" />
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary/40" />
+          <motion.div 
+            className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary/40"
+            animate={{
+              boxShadow: isHovered 
+                ? ['0 0 8px hsl(var(--primary) / 0.4)', '0 0 16px hsl(var(--primary) / 0.6)', '0 0 8px hsl(var(--primary) / 0.4)']
+                : '0 0 4px hsl(var(--primary) / 0.2)',
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+          />
         </motion.div>
-
-        {/* Ambient glow under bridge */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-32 bg-primary/5 blur-3xl -z-10" />
 
         {/* Company indicator - left */}
         <motion.div

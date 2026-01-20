@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface IdeaBubblesProps {
   isVisible: boolean;
@@ -13,43 +13,19 @@ const bubbleContent = [
   "People over resumes",
 ];
 
-// Calculate radial positions with proper spacing
-const calculateBubblePositions = (count: number, isMobile: boolean) => {
-  const arcStart = -65;
-  const arcEnd = 65;
-  const arcRange = arcEnd - arcStart;
-  
-  // Responsive radius: clamp(120px, 18vw, 220px)
-  const baseRadius = isMobile ? 100 : 160;
-  
-  return Array.from({ length: count }, (_, i) => {
-    // Angular distribution with slight random offset
-    const angleStep = arcRange / (count - 1 || 1);
-    const randomOffset = (Math.random() - 0.5) * 12; // ±6°
-    const angle = arcStart + angleStep * i + randomOffset;
-    const radians = (angle * Math.PI) / 180;
-    
-    // Calculate position
-    const x = Math.sin(radians) * baseRadius;
-    const y = -Math.cos(radians) * baseRadius * 0.6; // Flatten vertically
-    
-    // Add slight Y variation for organic feel
-    const yOffset = (Math.random() - 0.5) * 24; // ±12px
-    
-    return {
-      x,
-      y: y + yOffset,
-      delay: 0.12 + i * 0.09, // Staggered: 120ms first, 90ms apart
-      duration: 7 + Math.random() * 3, // 7-10s float duration
-      driftX: (Math.random() - 0.5) * 8, // ±4px horizontal
-      driftY: 6 + Math.random() * 4, // 6-10px vertical
-    };
-  });
-};
+// Predefined positions for single bubble display - varied positions around bridge
+const bubblePositions = [
+  { x: -120, y: -80 },  // top-left
+  { x: 130, y: -70 },   // top-right
+  { x: -140, y: 60 },   // bottom-left
+  { x: 110, y: 75 },    // bottom-right
+  { x: 0, y: -95 },     // top-center
+];
 
 const IdeaBubbles = ({ isVisible }: IdeaBubblesProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [positions, setPositions] = useState<ReturnType<typeof calculateBubblePositions>>([]);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -58,93 +34,107 @@ const IdeaBubbles = ({ isVisible }: IdeaBubblesProps) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
+  // Cycle through bubbles one at a time
   useEffect(() => {
     if (isVisible) {
-      const count = isMobile ? 4 : 5;
-      setPositions(calculateBubblePositions(count, isMobile));
+      // Reset to first bubble when hover starts
+      setCurrentIndex(0);
+      
+      // Cycle through bubbles every 2.5 seconds
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex(prev => (prev + 1) % bubbleContent.length);
+      }, 2500);
+    } else {
+      // Clear interval when hover ends
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
-  }, [isVisible, isMobile]);
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isVisible]);
 
-  const bubblesToShow = isMobile ? bubbleContent.slice(0, 4) : bubbleContent;
+  const currentPosition = bubblePositions[currentIndex];
+  const mobileScale = isMobile ? 0.7 : 1;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-          {bubblesToShow.map((text, index) => {
-            const pos = positions[index];
-            if (!pos) return null;
-            
-            return (
-              <motion.div
-                key={index}
-                initial={{ 
-                  opacity: 0, 
-                  scale: 0.9,
-                  x: pos.x,
-                  y: pos.y + 6,
+        <motion.div
+          key={currentIndex}
+          initial={{ 
+            opacity: 0, 
+            scale: 0.9,
+            x: currentPosition.x * mobileScale,
+            y: currentPosition.y * mobileScale + 8,
+          }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            x: currentPosition.x * mobileScale,
+            y: currentPosition.y * mobileScale,
+          }}
+          exit={{ 
+            opacity: 0, 
+            scale: 0.95,
+            y: currentPosition.y * mobileScale - 10,
+          }}
+          transition={{ 
+            duration: 0.4,
+            ease: [0.22, 1, 0.36, 1]
+          }}
+          className="absolute z-30 pointer-events-none"
+          style={{
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          {/* Gentle floating motion */}
+          <motion.div
+            animate={{ 
+              y: [0, -6, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          >
+            {/* Bubble with water-like styling */}
+            <div 
+              className="relative rounded-full px-6 py-3"
+              style={{
+                background: 'linear-gradient(135deg, hsl(var(--background) / 0.9), hsl(var(--background) / 0.8))',
+                backdropFilter: 'blur(12px)',
+                boxShadow: `
+                  0 0 30px hsl(var(--primary) / 0.15),
+                  inset 0 1px 2px hsl(var(--primary) / 0.1),
+                  0 8px 32px hsl(var(--background) / 0.5)
+                `,
+                border: '1px solid hsl(var(--primary) / 0.35)',
+              }}
+            >
+              {/* Inner glass highlight */}
+              <div 
+                className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
+                style={{
+                  background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.1) 0%, transparent 40%)',
                 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1,
-                  x: pos.x,
-                  y: pos.y,
-                }}
-                exit={{ 
-                  opacity: 0, 
-                  y: pos.y - 4,
-                }}
-                transition={{ 
-                  duration: 0.28,
-                  delay: pos.delay,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
-                className="absolute"
-              >
-                {/* Floating animation wrapper */}
-                <motion.div
-                  animate={{ 
-                    y: [0, -pos.driftY, 0],
-                    x: [0, pos.driftX, 0],
-                  }}
-                  transition={{
-                    duration: pos.duration,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                >
-                  {/* Bubble with water-like styling */}
-                  <div 
-                    className="relative rounded-full px-5 py-2.5 md:px-6 md:py-3"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--background) / 0.85), hsl(var(--background) / 0.75))',
-                      backdropFilter: 'blur(8px)',
-                      boxShadow: `
-                        0 0 20px hsl(var(--primary) / 0.1),
-                        inset 0 1px 1px hsl(var(--primary) / 0.1),
-                        0 4px 16px hsl(var(--background) / 0.4)
-                      `,
-                      border: '1px solid hsl(var(--primary) / 0.3)',
-                    }}
-                  >
-                    {/* Inner glass highlight */}
-                    <div 
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.08) 0%, transparent 50%)',
-                      }}
-                    />
-                    
-                    {/* Text */}
-                    <span className="relative text-xs md:text-sm text-primary/90 whitespace-nowrap font-light tracking-wide">
-                      {text}
-                    </span>
-                  </div>
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </div>
+              />
+              
+              {/* Text */}
+              <span className="relative text-sm md:text-base text-primary whitespace-nowrap font-light tracking-wide">
+                {bubbleContent[currentIndex]}
+              </span>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
