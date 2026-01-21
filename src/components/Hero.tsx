@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Bridge from './hero/Bridge';
 import IdeaBubbles from './hero/IdeaBubbles';
 import { ChevronDown } from 'lucide-react';
+import { useAutoScroll } from '@/hooks/useAutoScroll';
 
 const Hero = () => {
   const [isHovering, setIsHovering] = useState(false);
   const { scrollY } = useScroll();
+  const { scrollToElement } = useAutoScroll({ scrollDuration: 1400 });
   
   // Transform values for scroll-based animations - bridge recedes
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const scale = useTransform(scrollY, [0, 400], [1, 0.85]);
   const y = useTransform(scrollY, [0, 400], [0, 80]);
+
+  const handleCycleComplete = useCallback(() => {
+    scrollToElement('founder');
+  }, [scrollToElement]);
 
   const scrollToNext = () => {
     const element = document.getElementById('founder');
@@ -32,7 +38,7 @@ const Hero = () => {
       <Bridge isHovered={isHovering} />
       
       {/* Idea Bubbles - appear on hover */}
-      <IdeaBubbles isVisible={isHovering} />
+      <IdeaBubbles isVisible={isHovering} onCycleComplete={handleCycleComplete} />
       
       {/* Central Title - The anchor */}
       <motion.div
