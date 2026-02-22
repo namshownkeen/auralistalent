@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Bridge from './hero/Bridge';
 import IdeaBubbles from './hero/IdeaBubbles';
+import AmbientBubbles from './hero/AmbientBubbles';
 import { ChevronDown } from 'lucide-react';
 import { useAutoScroll } from '@/hooks/useAutoScroll';
 
@@ -33,6 +34,9 @@ const Hero = () => {
     >
       {/* Subtle ambient background */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/3 via-transparent to-transparent" />
+      
+      {/* Ambient floating bubbles - always visible */}
+      <AmbientBubbles />
       
       {/* The Bridge - pass hover state for glow sync */}
       <Bridge isHovered={isHovering} />
