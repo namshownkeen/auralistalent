@@ -67,9 +67,7 @@ const FounderSection = () => {
               className="flex flex-col gap-3"
             >
               <p className="text-lg text-muted-foreground leading-relaxed">
-                With FAANG-level experience, I can read a candidate in a single conversation. 
-                Not just skills — <em className="text-primary not-italic font-medium">intent, values, trajectory</em>. 
-                I know when someone fits. And when they do, I can tell your story in a way that makes that fit obvious.
+                Backed by FAANG-level experience, candidate evaluation goes beyond resumes, uncovering <em className="text-primary not-italic font-medium">intent, values, and growth trajectory</em> in a single conversation. Strong alignment is surfaced naturally, enabling confident and informed hiring decisions.
               </p>
               <ImpactBubble text="Turning unknown startups into compelling stories" delay={0.4} position="left" size="lg" />
             </motion.div>
@@ -103,11 +101,6 @@ const FounderSection = () => {
             >
               <p className="text-primary font-semibold text-lg mb-1">Aleksandar Lekic</p>
               <p className="text-muted-foreground text-sm">Founder, Auralis Talent Xplore</p>
-              <div className="flex gap-2 mt-4">
-                <ImpactBubble text="Quiet confidence" delay={0.8} size="sm" />
-                <ImpactBubble text="No buzzwords" delay={0.9} size="sm" />
-                <ImpactBubble text="High signal" delay={1.0} size="sm" />
-              </div>
             </motion.div>
           </div>
         </div>
