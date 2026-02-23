@@ -43,9 +43,15 @@ const AmbientBubbles = () => {
   }, []);
 
   const spawnBubble = useCallback(() => {
-    // Random angle, biased slightly upward (-30° to 210° from right)
-    const angle = (Math.random() * Math.PI * 2);
-    const size = isMobile ? 80 + Math.random() * 30 : 100 + Math.random() * 50;
+    // Avoid the horizontal center band (±25°) so bubbles don't overlap the tagline
+    // Split into upper and lower arcs, skipping ~150°-210° and ~330°-30° (left/right center)
+    const zones = [
+      [0.15 * Math.PI, 0.85 * Math.PI],   // upper arc (roughly 27° to 153°)
+      [1.15 * Math.PI, 1.85 * Math.PI],   // lower arc (roughly 207° to 333°)
+    ];
+    const zone = zones[Math.floor(Math.random() * zones.length)];
+    const angle = zone[0] + Math.random() * (zone[1] - zone[0]);
+    const size = isMobile ? 85 + Math.random() * 30 : 110 + Math.random() * 50;
     const distance = isMobile ? 200 + Math.random() * 150 : 300 + Math.random() * 250;
     const duration = 10 + Math.random() * 6; // 10-16s
 
@@ -193,9 +199,9 @@ const AmbientBubbles = () => {
                   }}
                 />
 
-                {/* Text content — always visible, elegant */}
+                {/* Text content — bright, crisp, and compelling */}
                 <span
-                  className="relative z-10 text-[10px] sm:text-xs text-primary/70 text-center px-3 font-light tracking-wide leading-tight select-none"
+                  className="relative z-10 text-[11px] sm:text-sm text-primary font-medium text-center px-3 tracking-wide leading-tight select-none drop-shadow-[0_0_6px_hsl(var(--primary)/0.4)]"
                   style={{ maxWidth: bubble.size * 0.85 }}
                 >
                   {bubbleMessages[bubble.contentIndex]}
