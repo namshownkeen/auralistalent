@@ -40,7 +40,7 @@ const Hero = () => {
         className="relative z-20 text-center cursor-default"
       >
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-primary tracking-tight"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-primary tracking-tight font-display"
         >
           Auralis Talent Xplore
         </motion.h1>
@@ -49,9 +49,9 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="mt-6 text-sm md:text-base text-muted-foreground/60 font-light tracking-wide"
+          className="mt-6 text-sm md:text-base text-muted-foreground/60 font-light tracking-[0.15em] uppercase"
         >
-          Connecting people, not just roles.
+          Precision hiring for the companies shaping what's next.
         </motion.p>
       </motion.div>
       

@@ -20,9 +20,9 @@ const Navbar = () => {
       <nav className="container mx-auto px-6 h-16 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">A</span>
+            <span className="text-primary-foreground font-bold text-lg font-display tracking-tight">A</span>
           </div>
-          <span className="font-semibold text-lg text-foreground hidden sm:inline">Auralis Talent Xplore</span>
+          <span className="font-semibold text-lg text-foreground hidden sm:inline font-display tracking-tight">Auralis Talent Xplore</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">

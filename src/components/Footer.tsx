@@ -29,12 +29,12 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">A</span>
+                <span className="text-primary-foreground font-bold text-xl font-display tracking-tight">A</span>
               </div>
-              <span className="font-semibold text-lg text-foreground">Auralis Talent Xplore</span>
+              <span className="font-semibold text-lg text-foreground font-display tracking-tight">Auralis Talent Xplore</span>
             </a>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-              Hire like a growing company — not a stressed one.
+              Precision hiring for the companies shaping what's next.
             </p>
             {/* Social links */}
             <div className="flex items-center gap-4">
