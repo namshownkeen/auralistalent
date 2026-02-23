@@ -19,7 +19,7 @@ const Testimonial = () => {
         >
           <Quote className="w-10 h-10 text-primary/40 mx-auto mb-6" />
           
-          <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground leading-relaxed mb-6">
+          <blockquote className="text-2xl sm:text-3xl md:text-4xl font-medium text-foreground leading-relaxed mb-6">
             "Alek didn't just send resumes, he understood what we were really looking for. 
             Our last three hires have been exceptional."
           </blockquote>
@@ -29,8 +29,8 @@ const Testimonial = () => {
               <span className="text-sm font-semibold text-primary">NS</span>
             </div>
             <div className="text-left">
-              <p className="font-medium text-foreground text-sm">Nam Shownkeen</p>
-              <p className="text-xs text-muted-foreground">TPM, Ria Money Transfer</p>
+              <p className="font-medium text-foreground text-base">Nam Shownkeen</p>
+              <p className="text-sm text-muted-foreground">TPM, Ria Money Transfer</p>
             </div>
           </div>
 
