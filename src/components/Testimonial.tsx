@@ -26,11 +26,11 @@ const Testimonial = () => {
           
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <span className="text-sm font-semibold text-primary">SL</span>
+              <span className="text-sm font-semibold text-primary">NS</span>
             </div>
             <div className="text-left">
-              <p className="font-medium text-foreground text-sm">Sarah Lin</p>
-              <p className="text-xs text-muted-foreground">VP of Engineering, Vertex</p>
+              <p className="font-medium text-foreground text-sm">Nam Shownkeen</p>
+              <p className="text-xs text-muted-foreground">TPM, Ria Money Transfer</p>
             </div>
           </div>
 
