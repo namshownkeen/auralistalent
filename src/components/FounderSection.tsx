@@ -99,7 +99,7 @@ const FounderSection = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="pt-8 border-t border-border/30"
             >
-              <p className="text-primary font-semibold text-lg mb-1">Aleksandar Lekic</p>
+              <p className="text-primary font-semibold text-lg mb-1">Alek Lekic</p>
               <p className="text-muted-foreground text-sm">Founder, Auralis Talent Xplore</p>
             </motion.div>
           </div>
