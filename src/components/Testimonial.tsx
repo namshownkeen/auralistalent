@@ -20,7 +20,7 @@ const Testimonial = () => {
           <Quote className="w-10 h-10 text-primary/40 mx-auto mb-6" />
           
           <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground leading-relaxed mb-6">
-            "They didn't just send resumes — they understood what we were really looking for. 
+            "Alek didn't just send resumes, he understood what we were really looking for. 
             Our last three hires have been exceptional."
           </blockquote>
           
