@@ -244,13 +244,6 @@ const InteractiveCard = ({
         className="relative w-full h-full"
         style={{
           transformStyle: "preserve-3d",
-          rotateX: phase === "grid" && !isMobile ? rotateX : 0,
-          rotateY:
-            phase === "grid" && !isMobile
-              ? rotateY
-              : showFront || mobileFlipped
-                ? 180
-                : 0,
         }}
         animate={{
           rotateY: showFront || mobileFlipped ? 180 : 0,
