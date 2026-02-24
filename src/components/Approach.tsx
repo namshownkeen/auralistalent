@@ -7,26 +7,26 @@ const approaches = [
   {
     icon: Sparkles,
     title: "Thoughtful Curation",
-    description: "No mass matching. Every candidate carefully evaluated.",
-    microcopy: "Handpicked, not scraped",
+    description: "No Mass Matching. Every Candidate Carefully Evaluated.",
+    microcopy: "Handpicked, Not Scraped",
   },
   {
     icon: Brain,
     title: "Deep Understanding",
-    description: "Context matters. Culture matters. We take the time.",
-    microcopy: "One conversation, full picture",
+    description: "Context Matters. Culture Matters. We Take The Time.",
+    microcopy: "One Conversation, Full Picture",
   },
   {
     icon: Target,
     title: "Signal Over Noise",
-    description: "Quality wins. We filter to find who moves the needle.",
-    microcopy: "Less resumes, better fits",
+    description: "Quality Wins. We Filter To Find Who Moves The Needle.",
+    microcopy: "Less Resumes, Better Fits",
   },
   {
     icon: Users,
     title: "Long-Term Thinking",
-    description: "Teams that last. Relationships that grow.",
-    microcopy: "Not quick fixes",
+    description: "Teams That Last. Relationships That Grow.",
+    microcopy: "Not Quick Fixes",
   },
 ];
 
@@ -69,12 +69,12 @@ const Approach = () => {
         >
           <span className="text-sm font-medium text-primary mb-4 block">Our Approach</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-            How we find the right people
+            How We Find The Right People
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            Considered, not transactional.
+            Considered, Not Transactional.
           </p>
-          <ImpactBubble text="Hiring with empathy, not volume" delay={0.3} />
+          <ImpactBubble text="Hiring With Empathy, Not Volume" delay={0.3} />
         </motion.div>
 
         {/* Approach cards */}

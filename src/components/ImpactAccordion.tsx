@@ -30,44 +30,44 @@ interface JourneyStation {
 const stations: JourneyStation[] = [
   {
     id: "problem",
-    title: "Hiring shouldn't feel this heavy.",
+    title: "Hiring Shouldn't Feel This Heavy.",
     subtitle: "The Problem",
-    tagline: "Weight lifted, not added",
+    tagline: "Weight Lifted, Not Added",
     bubbles: [
-      { icon: DollarSign, text: "Fixed salaries" },
-      { icon: Clock, text: "Long ramp-up time" },
-      { icon: Wrench, text: "Tooling costs" },
-      { icon: TrendingDown, text: "Unused capacity" },
+      { icon: DollarSign, text: "Fixed Salaries" },
+      { icon: Clock, text: "Long Ramp-Up Time" },
+      { icon: Wrench, text: "Tooling Costs" },
+      { icon: TrendingDown, text: "Unused Capacity" },
     ],
   },
   {
     id: "reframe",
-    title: "What if you only paid for results?",
+    title: "What If You Only Paid For Results?",
     subtitle: "The Solution",
-    tagline: "Outcomes, not overhead",
+    tagline: "Outcomes, Not Overhead",
     bubbles: [
-      { icon: Zap, text: "On-demand expertise" },
-      { icon: UserCheck, text: "Senior-level screening" },
-      { icon: Ban, text: "Zero idle cost" },
+      { icon: Zap, text: "On-Demand Expertise" },
+      { icon: UserCheck, text: "Senior-Level Screening" },
+      { icon: Ban, text: "Zero Idle Cost" },
     ],
   },
   {
     id: "comparison",
-    title: "In-House vs. Hiring Partner",
+    title: "In-House Vs. Hiring Partner",
     subtitle: "The Comparison",
-    tagline: "Same talent, smarter spend",
+    tagline: "Same Talent, Smarter Spend",
     bubbles: [
-      { icon: X, text: "$80K–$120K/year salary" },
-      { icon: Check, text: "Pay only when you hire" },
-      { icon: X, text: "2–4 months ramp-up" },
-      { icon: Check, text: "Immediate access" },
+      { icon: X, text: "$80K–$120K/Year Salary" },
+      { icon: Check, text: "Pay Only When You Hire" },
+      { icon: X, text: "2–4 Months Ramp-Up" },
+      { icon: Check, text: "Immediate Access" },
     ],
   },
   {
     id: "savings",
-    title: "Where the Savings Come From",
+    title: "Where The Savings Come From",
     subtitle: "Cost Breakdown",
-    tagline: "Efficiency without compromise",
+    tagline: "Efficiency Without Compromise",
     bubbles: [
       { icon: Wallet, text: "No Salary" },
       { icon: Receipt, text: "No Overhead" },
@@ -77,49 +77,49 @@ const stations: JourneyStation[] = [
   },
   {
     id: "relief",
-    title: "You approve. We handle the rest.",
+    title: "You Approve. We Handle The Rest.",
     subtitle: "What We Do",
-    tagline: "Your time is precious",
+    tagline: "Your Time Is Precious",
     bubbles: [
-      { icon: Eye, text: "Review candidates" },
-      { icon: CheckCircle, text: "Final decision" },
-      { icon: CreditCard, text: "Simple commission" },
+      { icon: Eye, text: "Review Candidates" },
+      { icon: CheckCircle, text: "Final Decision" },
+      { icon: CreditCard, text: "Simple Commission" },
     ],
   },
   {
     id: "sweetspot",
-    title: "Built for Teams Hiring with Intention",
+    title: "Built For Teams Hiring With Intention",
     subtitle: "Our Sweet Spot",
-    tagline: "Intentional growth",
+    tagline: "Intentional Growth",
     bubbles: [
-      { icon: Users, text: "1–10 roles/year" },
-      { icon: TrendingUp, text: "Scaling carefully" },
-      { icon: Star, text: "High-impact positions" },
-      { icon: BarChart3, text: "Quality over volume" },
+      { icon: Users, text: "1–10 Roles/Year" },
+      { icon: TrendingUp, text: "Scaling Carefully" },
+      { icon: Star, text: "High-Impact Positions" },
+      { icon: BarChart3, text: "Quality Over Volume" },
     ],
   },
   {
     id: "contract",
     title: "Flexible. Transparent. No Lock-Ins.",
     subtitle: "How We Work",
-    tagline: "Clear terms, clean exit",
+    tagline: "Clear Terms, Clean Exit",
     bubbles: [
-      { icon: FileText, text: "Defined scope" },
-      { icon: Coins, text: "Agreed commission" },
-      { icon: EyeOff, text: "No hidden fees" },
-      { icon: Unlock, text: "No lock-in" },
+      { icon: FileText, text: "Defined Scope" },
+      { icon: Coins, text: "Agreed Commission" },
+      { icon: EyeOff, text: "No Hidden Fees" },
+      { icon: Unlock, text: "No Lock-In" },
     ],
   },
   {
     id: "whynow",
     title: "Why This Works Better Today",
     subtitle: "The Shift",
-    tagline: "The world changed",
+    tagline: "The World Changed",
     bubbles: [
-      { icon: Globe, text: "Remote talent" },
-      { icon: Briefcase, text: "Specialized roles" },
-      { icon: Clock, text: "Shorter windows" },
-      { icon: TrendingDown, text: "Cost-conscious" },
+      { icon: Globe, text: "Remote Talent" },
+      { icon: Briefcase, text: "Specialized Roles" },
+      { icon: Clock, text: "Shorter Windows" },
+      { icon: TrendingDown, text: "Cost-Conscious" },
     ],
   },
 ];
@@ -292,14 +292,14 @@ const ImpactAccordion = () => {
         >
           <span className="text-sm font-medium text-primary mb-4 block">The Auralis Difference</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-            How we think about hiring
+            How We Think About Hiring
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-            Less process, more conversation. Less guessing, more knowing.
+            Less Process, More Conversation. Less Guessing, More Knowing.
           </p>
           <div className="flex flex-wrap justify-center gap-2">
-            <ImpactBubble text="Bridging talent across borders" delay={0.2} size="sm" />
-            <ImpactBubble text="Signal over noise" delay={0.4} size="sm" />
+            <ImpactBubble text="Bridging Talent Across Borders" delay={0.2} size="sm" />
+            <ImpactBubble text="Signal Over Noise" delay={0.4} size="sm" />
           </div>
         </motion.div>
 
@@ -348,7 +348,7 @@ const ImpactAccordion = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2 text-primary/60"
           >
-            <span className="text-xs uppercase tracking-wider font-medium">Continue the journey</span>
+            <span className="text-xs uppercase tracking-wider font-medium">Continue The Journey</span>
             <ChevronDown className="w-5 h-5" />
           </motion.div>
         </motion.div>

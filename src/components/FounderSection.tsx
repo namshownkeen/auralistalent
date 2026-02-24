@@ -22,7 +22,7 @@ const FounderSection = () => {
           >
             <span className="text-sm font-medium text-primary mb-4 block">A Note From Alek</span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2">
-              Why I started Auralis
+              Why I Started Auralis
             </h2>
           </motion.div>
 
@@ -40,7 +40,7 @@ const FounderSection = () => {
                 Years of conversations. Both sides of the table. Candidates searching for meaning. 
                 Companies searching for the right <em className="text-primary not-italic font-medium">human</em>, not just a resume.
               </p>
-              <ImpactBubble text="Understanding people, not resumes" delay={0.2} position="left" />
+              <ImpactBubble text="Understanding People, Not Resumes" delay={0.2} position="left" />
             </motion.div>
 
             {/* Block 2 */}
@@ -55,7 +55,7 @@ const FounderSection = () => {
                 Hiring got harder. Great talent hesitates when the name's unfamiliar, 
                 the story unclear, or the risk feels too high.
               </p>
-              <ImpactBubble text="One conversation is often enough" delay={0.3} position="right" />
+              <ImpactBubble text="One Conversation Is Often Enough" delay={0.3} position="right" />
             </motion.div>
 
             {/* Block 3 */}
@@ -69,7 +69,7 @@ const FounderSection = () => {
               <p className="text-lg text-muted-foreground leading-relaxed text-justify">
                 Backed by FAANG-level experience, candidate evaluation goes beyond resumes, uncovering <em className="text-primary not-italic font-medium">intent, values, and growth trajectory</em> in a single conversation. Strong alignment is surfaced naturally, enabling confident and informed hiring decisions.
               </p>
-              <ImpactBubble text="Turning unknown startups into compelling stories" delay={0.4} position="left" size="lg" />
+              <ImpactBubble text="Turning Unknown Startups Into Compelling Stories" delay={0.4} position="left" size="lg" />
             </motion.div>
 
             {/* Block 4 - Bridge */}

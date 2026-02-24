@@ -103,7 +103,7 @@ const Footer = () => {
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <Phone className="w-4 h-4 text-primary" />
                   </div>
-                  <span>Get in Touch</span>
+                  <span>Get In Touch</span>
                 </a>
               </li>
             </ul>
@@ -113,14 +113,14 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 Auralis Talent Xplore. All rights reserved.
+            © 2024 Auralis Talent Xplore. All Rights Reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </a>
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Terms of Service
+              Terms Of Service
             </a>
           </div>
         </div>
