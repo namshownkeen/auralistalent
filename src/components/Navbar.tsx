@@ -59,7 +59,7 @@ const Navbar = () => {
             className="border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
             asChild
           >
-            <a href="mailto:alek@auralistalent.com?subject=Inquiry%20From%20Auralis%20Website">
+            <a href="mailto:alek@auralistalent.com?subject=Inquiry%20From%20Auralis%20Website" rel="noopener noreferrer">
               <Mail className="w-4 h-4 mr-2" />
               Contact
             </a>

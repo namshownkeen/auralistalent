@@ -15,6 +15,7 @@ const FinalCTA = () => {
         >
           <a
             href="mailto:alek@auralistalent.com"
+            rel="noopener noreferrer"
             className="final-cta block rounded-2xl p-8 md:p-12 text-center cursor-pointer group"
           >
             <motion.div
