@@ -143,6 +143,7 @@ const InteractiveCard = ({
 }) => {
   const isMobile = useIsMobile();
   const [tapped, setTapped] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -165,13 +166,24 @@ const InteractiveCard = ({
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
+    setHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (!isMobile) setHovered(true);
   };
 
   const handleTap = () => {
     if (isMobile) setTapped((t) => !t);
   };
 
-  const showFront = phase === "flip" || phase === "grid" ? isFlipped : false;
+  // In grid phase, cards show front by default; hover flips to back
+  // In flip phase, use scroll-based flip
+  const showFront = phase === "grid" 
+    ? !hovered 
+    : phase === "flip" 
+      ? isFlipped 
+      : false;
   const mobileFlipped = isMobile && tapped;
 
   // Compute animation target based on phase
@@ -224,6 +236,7 @@ const InteractiveCard = ({
           : {}
       }
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleTap}
     >
