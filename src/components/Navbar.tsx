@@ -17,7 +17,7 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
       className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-lg border-b border-border/30"
     >
-      <nav className="container mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="container mx-auto px-6 h-16 flex items-center gap-8">
         <a href="/" className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-lg font-display tracking-tight">A</span>
@@ -52,14 +52,14 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="ml-auto flex items-center">
           <Button 
             variant="outline" 
             size="sm" 
-            className="border-primary/50 text-primary hover:bg-primary/10 hover:border-primary hidden sm:inline-flex"
+            className="border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
             asChild
           >
-            <a href="mailto:alek@auralistalent.com">
+            <a href="https://mail.google.com/mail/?view=cm&to=alek@auralistalent.com&su=Inquiry%20From%20Auralis%20Website" target="_blank" rel="noopener noreferrer">
               <Mail className="w-4 h-4 mr-2" />
               Contact
             </a>
