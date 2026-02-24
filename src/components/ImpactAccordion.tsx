@@ -1,8 +1,7 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { useInView } from "@/hooks/useInView";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useState, useRef } from "react";
 import ImpactBubble from "./ImpactBubble";
-import { 
+import {
   DollarSign, Clock, Wrench, TrendingDown,
   Zap, UserCheck, Ban,
   X, Check,
@@ -10,293 +9,220 @@ import {
   Eye, CheckCircle, CreditCard,
   Users, TrendingUp, Star, BarChart3,
   FileText, Coins, EyeOff, Unlock,
-  Globe, Briefcase, ChevronRight
+  Globe, Briefcase, ChevronDown, LucideIcon
 } from "lucide-react";
 
-interface AccordionItemData {
-  id: string;
-  title: string;
-  subtitle?: string;
-  summary: string;
-  microcopy?: string;
-  content: React.ReactNode;
+/* ── Journey Station Data ─────────────────────────────────── */
+
+interface BubbleData {
+  icon: LucideIcon;
+  text: string;
 }
 
-const InteractiveTile = ({ children, className = "", delay = 0 }: { 
-  children: React.ReactNode; 
-  className?: string;
-  delay?: number;
-}) => {
-  const { ref, isInView } = useInView(0.2);
-  
-  return (
-    <div 
-      ref={ref}
-      className={`interactive-tile wave-highlight ${isInView ? 'in-view' : ''} ${className}`}
-      style={{ animationDelay: `${delay}ms` }}
+interface JourneyStation {
+  id: string;
+  title: string;
+  subtitle: string;
+  tagline: string;
+  bubbles: BubbleData[];
+}
+
+const stations: JourneyStation[] = [
+  {
+    id: "problem",
+    title: "Hiring shouldn't feel this heavy.",
+    subtitle: "The Problem",
+    tagline: "Weight lifted, not added",
+    bubbles: [
+      { icon: DollarSign, text: "Fixed salaries" },
+      { icon: Clock, text: "Long ramp-up time" },
+      { icon: Wrench, text: "Tooling costs" },
+      { icon: TrendingDown, text: "Unused capacity" },
+    ],
+  },
+  {
+    id: "reframe",
+    title: "What if you only paid for results?",
+    subtitle: "The Solution",
+    tagline: "Outcomes, not overhead",
+    bubbles: [
+      { icon: Zap, text: "On-demand expertise" },
+      { icon: UserCheck, text: "Senior-level screening" },
+      { icon: Ban, text: "Zero idle cost" },
+    ],
+  },
+  {
+    id: "comparison",
+    title: "In-House vs. Hiring Partner",
+    subtitle: "The Comparison",
+    tagline: "Same talent, smarter spend",
+    bubbles: [
+      { icon: X, text: "$80K–$120K/year salary" },
+      { icon: Check, text: "Pay only when you hire" },
+      { icon: X, text: "2–4 months ramp-up" },
+      { icon: Check, text: "Immediate access" },
+    ],
+  },
+  {
+    id: "savings",
+    title: "Where the Savings Come From",
+    subtitle: "Cost Breakdown",
+    tagline: "Efficiency without compromise",
+    bubbles: [
+      { icon: Wallet, text: "No Salary" },
+      { icon: Receipt, text: "No Overhead" },
+      { icon: Timer, text: "20–40% Faster" },
+      { icon: Target, text: "Better Fit" },
+    ],
+  },
+  {
+    id: "relief",
+    title: "You approve. We handle the rest.",
+    subtitle: "What We Do",
+    tagline: "Your time is precious",
+    bubbles: [
+      { icon: Eye, text: "Review candidates" },
+      { icon: CheckCircle, text: "Final decision" },
+      { icon: CreditCard, text: "Simple commission" },
+    ],
+  },
+  {
+    id: "sweetspot",
+    title: "Built for Teams Hiring with Intention",
+    subtitle: "Our Sweet Spot",
+    tagline: "Intentional growth",
+    bubbles: [
+      { icon: Users, text: "1–10 roles/year" },
+      { icon: TrendingUp, text: "Scaling carefully" },
+      { icon: Star, text: "High-impact positions" },
+      { icon: BarChart3, text: "Quality over volume" },
+    ],
+  },
+  {
+    id: "contract",
+    title: "Flexible. Transparent. No Lock-Ins.",
+    subtitle: "How We Work",
+    tagline: "Clear terms, clean exit",
+    bubbles: [
+      { icon: FileText, text: "Defined scope" },
+      { icon: Coins, text: "Agreed commission" },
+      { icon: EyeOff, text: "No hidden fees" },
+      { icon: Unlock, text: "No lock-in" },
+    ],
+  },
+  {
+    id: "whynow",
+    title: "Why This Works Better Today",
+    subtitle: "The Shift",
+    tagline: "The world changed",
+    bubbles: [
+      { icon: Globe, text: "Remote talent" },
+      { icon: Briefcase, text: "Specialized roles" },
+      { icon: Clock, text: "Shorter windows" },
+      { icon: TrendingDown, text: "Cost-conscious" },
+    ],
+  },
+];
+
+/* ── Car SVG ──────────────────────────────────────────────── */
+
+const CarIcon = () => (
+  <svg width="48" height="24" viewBox="0 0 48 24" fill="none" className="drop-shadow-lg">
+    <rect x="4" y="8" width="40" height="12" rx="4" fill="hsl(168 100% 37%)" />
+    <rect x="10" y="4" width="22" height="8" rx="3" fill="hsl(168 76% 42%)" />
+    <circle cx="14" cy="20" r="3" fill="hsl(220 15% 15%)" stroke="hsl(168 100% 37%)" strokeWidth="1" />
+    <circle cx="36" cy="20" r="3" fill="hsl(220 15% 15%)" stroke="hsl(168 100% 37%)" strokeWidth="1" />
+    <rect x="12" y="6" width="6" height="4" rx="1" fill="hsl(168 100% 37% / 0.4)" />
+    <rect x="20" y="6" width="6" height="4" rx="1" fill="hsl(168 100% 37% / 0.4)" />
+  </svg>
+);
+
+/* ── Single Station Component ─────────────────────────────── */
+
+const StationCard = ({ station, index }: { station: JourneyStation; index: number }) => (
+  <motion.div
+    initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className="relative"
+  >
+    {/* Station header */}
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="mb-6"
     >
-      {children}
+      <span className="text-xs uppercase tracking-wider text-primary/70 font-medium block mb-1">
+        {station.subtitle}
+      </span>
+      <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2 text-balance">
+        {station.title}
+      </h3>
+      <ImpactBubble text={station.tagline} delay={0.2} size="sm" position="left" />
+    </motion.div>
+
+    {/* Bubbles grid */}
+    <div className="flex flex-wrap gap-3">
+      {station.bubbles.map((bubble, bIdx) => (
+        <motion.div
+          key={bubble.text}
+          initial={{ opacity: 0, scale: 0.7, y: 20 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{
+            duration: 0.5,
+            delay: 0.15 + bIdx * 0.12,
+            ease: [0.21, 0.47, 0.32, 0.98],
+          }}
+          whileHover={{ scale: 1.06, y: -3 }}
+          className="
+            flex items-center gap-2.5 px-4 py-3 rounded-2xl
+            border border-primary/20 bg-card/60 backdrop-blur-sm
+            shadow-sm hover:border-primary/50
+            hover:shadow-[0_0_24px_hsl(168_100%_37%/0.2)]
+            transition-all duration-300 cursor-default
+          "
+        >
+          <bubble.icon className="w-4 h-4 text-primary flex-shrink-0" />
+          <span className="text-sm text-foreground/90 font-medium">{bubble.text}</span>
+        </motion.div>
+      ))}
     </div>
-  );
-};
+  </motion.div>
+);
+
+/* ── Main Component ───────────────────────────────────────── */
 
 const ImpactAccordion = () => {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showArrow, setShowArrow] = useState(false);
 
-  const accordionItems: AccordionItemData[] = [
-    {
-      id: "problem",
-      title: "Hiring shouldn't feel this heavy.",
-      subtitle: "The Problem",
-      summary: "In-house recruiting often means fixed salaries, long ramp-up time, and unused capacity.",
-      microcopy: "Weight lifted, not added",
-      content: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { icon: DollarSign, text: "Fixed salaries" },
-              { icon: Clock, text: "Long ramp-up time" },
-              { icon: Wrench, text: "Tooling costs" },
-              { icon: TrendingDown, text: "Unused capacity" },
-            ].map((point, idx) => (
-              <InteractiveTile key={point.text} delay={idx * 50}>
-                <div className="p-3 rounded-xl border border-border bg-card/50 teal-glow-hover cursor-pointer">
-                  <point.icon className="w-5 h-5 text-primary mb-2 mx-auto" />
-                  <p className="text-foreground/90 text-xs text-center">{point.text}</p>
-                </div>
-              </InteractiveTile>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 inline-block">
-              <p className="text-foreground text-sm">
-                💡 Companies hiring under 5–10 roles/year overspend by <span className="font-semibold text-primary">30–45%</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "reframe",
-      title: "What if you only paid for results?",
-      subtitle: "The Solution",
-      summary: "On-demand expertise, senior-level screening, zero idle cost after roles are filled.",
-      microcopy: "Outcomes, not overhead",
-      content: (
-        <div className="space-y-6">
-          <div className="grid md:grid-cols-3 gap-3">
-            {[
-              { icon: Zap, text: "On-demand expertise" },
-              { icon: UserCheck, text: "Senior-level screening" },
-              { icon: Ban, text: "Zero idle cost" },
-            ].map((benefit, idx) => (
-              <InteractiveTile key={benefit.text} delay={idx * 50}>
-                <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 teal-glow-hover cursor-pointer">
-                  <benefit.icon className="w-6 h-6 text-primary mb-2 mx-auto" />
-                  <p className="text-foreground text-center font-medium text-sm">{benefit.text}</p>
-                </div>
-              </InteractiveTile>
-            ))}
-          </div>
-          <p className="text-lg text-primary font-medium text-center">
-            You focus on growing. We handle the hiring.
-          </p>
-        </div>
-      ),
-    },
-    {
-      id: "comparison",
-      title: "In-House Recruiter vs. Hiring Partner",
-      subtitle: "The Comparison",
-      summary: "Save 35–50% on hiring costs when recruiting is project-based.",
-      microcopy: "Same talent, smarter spend",
-      content: (
-        <div className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <InteractiveTile delay={0}>
-              <div className="p-4 rounded-xl border border-border bg-card/50 teal-glow-hover h-full">
-                <h4 className="text-sm font-semibold text-muted-foreground mb-3">In-House Recruiter</h4>
-                <ul className="space-y-2">
-                  {["$80K–$120K/year", "20–30% overhead", "2–4 months ramp-up", "Cost when not hiring"].map((text) => (
-                    <li key={text} className="flex items-center gap-2">
-                      <X className="w-3 h-3 text-red-400 flex-shrink-0" />
-                      <span className="text-muted-foreground text-xs">{text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </InteractiveTile>
-            <InteractiveTile delay={100}>
-              <div className="p-4 rounded-xl border border-primary/30 bg-primary/10 teal-glow-hover h-full">
-                <h4 className="text-sm font-semibold text-primary mb-3">Our Model</h4>
-                <ul className="space-y-2">
-                  {["Pay only when you hire", "15–25% per hire", "Immediate access", "No long-term cost"].map((text) => (
-                    <li key={text} className="flex items-center gap-2">
-                      <Check className="w-3 h-3 text-primary flex-shrink-0" />
-                      <span className="text-foreground text-xs">{text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </InteractiveTile>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "savings",
-      title: "Where the Savings Come From",
-      subtitle: "Cost Breakdown",
-      summary: "No salary commitment, no overhead, faster hiring, better quality.",
-      microcopy: "Efficiency without compromise",
-      content: (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {[
-            { icon: Wallet, title: "No Salary", desc: "Pay when hiring" },
-            { icon: Receipt, title: "No Overhead", desc: "Our own tools" },
-            { icon: Timer, title: "Faster Hire", desc: "20–40% quicker" },
-            { icon: Target, title: "Better Fit", desc: "Fewer mis-hires" },
-          ].map((item, idx) => (
-            <InteractiveTile key={item.title} delay={idx * 50}>
-              <div className="p-3 rounded-xl border border-border bg-primary/5 text-center teal-glow-hover cursor-pointer h-full">
-                <item.icon className="w-6 h-6 text-primary mb-2 mx-auto" />
-                <h4 className="text-foreground font-semibold text-sm mb-1">{item.title}</h4>
-                <p className="text-muted-foreground text-xs">{item.desc}</p>
-              </div>
-            </InteractiveTile>
-          ))}
-        </div>
-      ),
-    },
-    {
-      id: "relief",
-      title: "You approve. We handle the rest.",
-      subtitle: "What We Do",
-      summary: "We handle sourcing, screening, interviews, negotiations — you make the final decision.",
-      microcopy: "Your time is precious",
-      content: (
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-sm font-semibold text-muted-foreground mb-3">We Handle</h4>
-            <div className="grid grid-cols-2 gap-2">
-              {["Sourcing", "Screening", "Interviews", "Follow-ups", "Negotiations", "Contracts"].map((text, idx) => (
-                <InteractiveTile key={text} delay={idx * 30}>
-                  <div className="flex items-center gap-2 p-2 rounded-lg border border-border bg-card/50 teal-glow-hover cursor-pointer">
-                    <span className="text-muted-foreground text-xs">{text}</span>
-                  </div>
-                </InteractiveTile>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-primary mb-3">You Do</h4>
-            <div className="space-y-2">
-              {[
-                { icon: Eye, text: "Review candidates" },
-                { icon: CheckCircle, text: "Final decision" },
-                { icon: CreditCard, text: "Simple commission" },
-              ].map((item, idx) => (
-                <InteractiveTile key={item.text} delay={idx * 50}>
-                  <div className="flex items-center gap-2 p-3 rounded-lg border border-primary/30 bg-primary/10 teal-glow-hover cursor-pointer">
-                    <item.icon className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-foreground font-medium text-xs">{item.text}</span>
-                  </div>
-                </InteractiveTile>
-              ))}
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "sweetspot",
-      title: "Built for Teams Hiring with Intention",
-      subtitle: "Our Sweet Spot",
-      summary: "Ideal for companies hiring 1–10 roles per year, scaling carefully with quality focus.",
-      microcopy: "Intentional growth",
-      content: (
-        <div className="grid sm:grid-cols-2 gap-3">
-          {[
-            { icon: Users, text: "Hiring 1–10 roles/year" },
-            { icon: TrendingUp, text: "Scaling carefully" },
-            { icon: Star, text: "High-impact positions" },
-            { icon: BarChart3, text: "Quality over volume" },
-          ].map((item, idx) => (
-            <InteractiveTile key={item.text} delay={idx * 50}>
-              <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-primary/5 teal-glow-hover cursor-pointer">
-                <item.icon className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-foreground font-medium text-sm">{item.text}</span>
-              </div>
-            </InteractiveTile>
-          ))}
-        </div>
-      ),
-    },
-    {
-      id: "contract",
-      title: "Flexible. Transparent. No Lock-Ins.",
-      subtitle: "How We Work",
-      summary: "Defined scope, agreed commission, no hidden fees, no long-term obligation.",
-      microcopy: "Clear terms, clean exit",
-      content: (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { icon: FileText, text: "Defined scope" },
-            { icon: Coins, text: "Agreed commission" },
-            { icon: EyeOff, text: "No hidden fees" },
-            { icon: Unlock, text: "No lock-in" },
-          ].map((feature, idx) => (
-            <InteractiveTile key={feature.text} delay={idx * 50}>
-              <div className="p-3 rounded-xl border border-primary/20 bg-primary/5 text-center teal-glow-hover cursor-pointer h-full">
-                <feature.icon className="w-5 h-5 text-primary mb-2 mx-auto" />
-                <p className="text-foreground text-xs font-medium">{feature.text}</p>
-              </div>
-            </InteractiveTile>
-          ))}
-        </div>
-      ),
-    },
-    {
-      id: "whynow",
-      title: "Why This Works Better Today",
-      subtitle: "The Shift",
-      summary: "Remote talent pools, specialized roles, shorter windows, cost-conscious growth.",
-      microcopy: "The world changed",
-      content: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { icon: Globe, text: "Remote talent" },
-              { icon: Briefcase, text: "Specialized roles" },
-              { icon: Clock, text: "Shorter windows" },
-              { icon: TrendingDown, text: "Cost-conscious" },
-            ].map((reason, idx) => (
-              <InteractiveTile key={reason.text} delay={idx * 50}>
-                <div className="p-3 rounded-xl border border-border bg-primary/5 text-center teal-glow-hover cursor-pointer">
-                  <reason.icon className="w-5 h-5 text-primary mb-2 mx-auto" />
-                  <p className="text-foreground text-xs">{reason.text}</p>
-                </div>
-              </InteractiveTile>
-            ))}
-          </div>
-          <p className="text-sm text-primary text-center font-medium">
-            Hiring has changed. Your model should too.
-          </p>
-        </div>
-      ),
-    },
-  ];
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Car travels down the timeline track
+  const carY = useTransform(scrollYProgress, [0, 1], ["0%", "92%"]);
+
+  // Show scroll arrow once user has seen most stations
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setShowArrow(v > 0.75);
+  });
 
   return (
     <section id="why-auralis" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-6">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
           <span className="text-sm font-medium text-primary mb-4 block">The Auralis Difference</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -311,76 +237,57 @@ const ImpactAccordion = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
-          <div className="space-y-2">
-            {accordionItems.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.03 }}
-                className={`
-                  rounded-xl border transition-all duration-300 overflow-hidden cursor-pointer interactive-tile
-                  ${expandedId === item.id 
-                    ? 'border-primary/50 bg-card shadow-lg shadow-primary/10' 
-                    : 'border-border/50 bg-card/30 hover:border-primary/30 hover:bg-card/60'
-                  }
-                `}
-                onMouseEnter={() => setExpandedId(item.id)}
-                onMouseLeave={() => setExpandedId(null)}
-                onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
-              >
-                <div className="p-4 md:p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      {item.subtitle && (
-                        <span className="text-primary/70 text-xs uppercase tracking-wider mb-1 block font-medium">
-                          {item.subtitle}
-                        </span>
-                      )}
-                      <h3 className="text-base md:text-lg font-semibold text-foreground mb-1">
-                        {item.title}
-                      </h3>
-                      {expandedId !== item.id && (
-                        <p className="text-sm text-muted-foreground line-clamp-1">
-                          {item.summary}
-                        </p>
-                      )}
-                    </div>
-                    <motion.div
-                      animate={{ rotate: expandedId === item.id ? 90 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="w-6 h-6 rounded-full border border-primary/30 flex items-center justify-center flex-shrink-0 mt-1"
-                    >
-                      <ChevronRight className="w-3 h-3 text-primary" />
-                    </motion.div>
-                  </div>
-                </div>
-                
-                <AnimatePresence>
-                  {expandedId === item.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-4 md:px-5 pb-5 pt-2 border-t border-border/30">
-                        {item.content}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+        {/* Journey timeline */}
+        <div ref={containerRef} className="relative max-w-3xl mx-auto">
+          {/* Vertical track line */}
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-primary/5" />
+
+          {/* Moving car */}
+          <motion.div
+            style={{ top: carY }}
+            className="absolute left-1 md:left-2 z-20 pointer-events-none"
+          >
+            <motion.div
+              animate={{ rotate: 90 }}
+              className="origin-center"
+            >
+              <CarIcon />
+            </motion.div>
+          </motion.div>
+
+          {/* Stations */}
+          <div className="space-y-20 pl-16 md:pl-20">
+            {stations.map((station, index) => (
+              <div key={station.id} className="relative">
+                {/* Dot on the track */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="absolute -left-[calc(2.5rem+5px)] md:-left-[calc(3rem+5px)] top-1 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_hsl(168_100%_37%/0.5)]"
+                />
+                <StationCard station={station} index={index} />
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* Scroll-down arrow */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showArrow ? 1 : 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex justify-center mt-16"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-2 text-primary/60"
+          >
+            <span className="text-xs uppercase tracking-wider font-medium">Continue the journey</span>
+            <ChevronDown className="w-5 h-5" />
+          </motion.div>
         </motion.div>
       </div>
     </section>
