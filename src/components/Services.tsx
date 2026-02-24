@@ -8,20 +8,20 @@ const services = [
   {
     number: "01",
     title: "Executive Search",
-    description: "Leaders who shape culture and drive results. Beyond credentials.",
-    microcopy: "Fit over pedigree",
+    description: "Leaders Who Shape Culture And Drive Results. Beyond Credentials.",
+    microcopy: "Fit Over Pedigree",
   },
   {
     number: "02",
     title: "Technical Hiring",
-    description: "Engineers, designers, product. We get the nuances.",
-    microcopy: "We speak the language",
+    description: "Engineers, Designers, Product. We Get The Nuances.",
+    microcopy: "We Speak The Language",
   },
   {
     number: "03",
     title: "Growth Roles",
-    description: "Marketing, sales, ops. People who scale what works.",
-    microcopy: "Builders, not maintainers",
+    description: "Marketing, Sales, Ops. People Who Scale What Works.",
+    microcopy: "Builders, Not Maintainers",
   },
 ];
 
@@ -71,13 +71,13 @@ const Services = () => {
           >
             <span className="text-sm font-medium text-primary mb-4 block">What We Do</span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Expertise, across the board
+              Expertise, Across The Board
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Same care. Same precision. Every search.
+              Same Care. Same Precision. Every Search.
             </p>
             <div className="mb-6">
-              <ImpactBubble text="Quality over quantity, always" delay={0.3} />
+              <ImpactBubble text="Quality Over Quantity, Always" delay={0.3} />
             </div>
             <Button 
               size="lg" 
@@ -85,7 +85,7 @@ const Services = () => {
               asChild
             >
               <a href="mailto:alek@auralistalent.com">
-                Start a Conversation
+                Start A Conversation
                 <ArrowUpRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </Button>

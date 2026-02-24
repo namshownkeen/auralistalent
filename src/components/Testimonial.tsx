@@ -34,7 +34,7 @@ const Testimonial = () => {
             </div>
           </div>
 
-          <ImpactBubble text="Trust builds over time" delay={0.4} size="sm" />
+          <ImpactBubble text="Trust Builds Over Time" delay={0.4} size="sm" />
         </motion.div>
       </div>
     </section>

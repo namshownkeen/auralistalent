@@ -51,7 +51,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 1 }}
           className="mt-6 text-sm md:text-base text-muted-foreground/60 font-light tracking-[0.15em] uppercase"
         >
-          Precision hiring for the companies shaping what's next.
+          Precision Hiring For The Companies Shaping What's Next.
         </motion.p>
       </motion.div>
       
@@ -65,7 +65,7 @@ const Hero = () => {
       >
         <div className="flex flex-col items-center gap-3 group">
           <span className="text-xs text-muted-foreground/50 tracking-[0.2em] uppercase group-hover:text-muted-foreground/70 transition-colors">
-            Scroll to cross the bridge
+            Scroll To Cross The Bridge
           </span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
