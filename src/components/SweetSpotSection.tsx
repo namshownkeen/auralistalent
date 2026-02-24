@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Users, TrendingUp, Star, BarChart3 } from "lucide-react";
 
 const criteria = [
-  { icon: Users, text: "Hiring 1–10 roles per year" },
+  { icon: Users, text: "Quality-Critical Hires At Any Scale" },
   { icon: TrendingUp, text: "Scaling carefully" },
   { icon: Star, text: "Filling high-impact positions" },
   { icon: BarChart3, text: "Wanting quality over volume" },

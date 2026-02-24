@@ -62,8 +62,8 @@ const ProblemSection = () => {
           >
             <p className="text-[hsl(var(--impact-text))]/60 text-sm mb-2">💡</p>
             <p className="text-[hsl(var(--impact-text))] text-lg font-light">
-              Companies hiring under 5–10 roles/year overspend by{" "}
-              <span className="font-semibold">30–45%</span> with in-house recruiting.
+              Companies without a dedicated hiring partner overspend by{" "}
+              <span className="font-semibold">30–45%</span> on quality-critical roles.
             </p>
           </motion.div>
         </motion.div>
