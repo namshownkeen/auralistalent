@@ -57,7 +57,7 @@ const stations: JourneyStation[] = [
     subtitle: "The Comparison",
     tagline: "Same Talent, Smarter Spend",
     bubbles: [
-      { icon: X, text: "$80K–$120K/Year Salary" },
+      { icon: X, text: "$130K–$180K/Year Salary" },
       { icon: Check, text: "Pay Only When You Hire" },
       { icon: X, text: "2–4 Months Ramp-Up" },
       { icon: Check, text: "Immediate Access" },

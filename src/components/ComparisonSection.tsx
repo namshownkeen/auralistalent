@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { X, Check } from "lucide-react";
 
 const inHouseItems = [
-  { text: "Salary: $80K–$120K/year", negative: true },
+  { text: "Salary: $130K–$180K/year", negative: true },
   { text: "Benefits & overhead: 20–30%", negative: true },
   { text: "Ramp-up time: 2–4 months", negative: true },
   { text: "Limited industry exposure", negative: true },
