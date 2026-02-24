@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ImpactBubble from "./ImpactBubble";
 import {
   DollarSign, Clock, Wrench, TrendingDown,
@@ -126,14 +126,19 @@ const stations: JourneyStation[] = [
 
 /* ── Car SVG ──────────────────────────────────────────────── */
 
-const CarIcon = () => (
-  <svg width="48" height="24" viewBox="0 0 48 24" fill="none" className="drop-shadow-lg">
-    <rect x="4" y="8" width="40" height="12" rx="4" fill="hsl(168 100% 37%)" />
-    <rect x="10" y="4" width="22" height="8" rx="3" fill="hsl(168 76% 42%)" />
-    <circle cx="14" cy="20" r="3" fill="hsl(220 15% 15%)" stroke="hsl(168 100% 37%)" strokeWidth="1" />
-    <circle cx="36" cy="20" r="3" fill="hsl(220 15% 15%)" stroke="hsl(168 100% 37%)" strokeWidth="1" />
-    <rect x="12" y="6" width="6" height="4" rx="1" fill="hsl(168 100% 37% / 0.4)" />
-    <rect x="20" y="6" width="6" height="4" rx="1" fill="hsl(168 100% 37% / 0.4)" />
+const NovaIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="drop-shadow-[0_0_12px_hsl(168_100%_37%/0.6)]">
+    {/* Outer glow ring */}
+    <circle cx="16" cy="16" r="14" fill="hsl(168 100% 37% / 0.08)" stroke="hsl(168 100% 37% / 0.3)" strokeWidth="0.5" />
+    {/* Nova starburst */}
+    <path
+      d="M16 2 L18.5 12.5 L28 10 L20 16 L28 22 L18.5 19.5 L16 30 L13.5 19.5 L4 22 L12 16 L4 10 L13.5 12.5 Z"
+      fill="hsl(168 100% 37%)"
+      opacity="0.9"
+    />
+    {/* Inner core */}
+    <circle cx="16" cy="16" r="4" fill="hsl(168 80% 55%)" />
+    <circle cx="16" cy="16" r="2" fill="hsl(168 100% 80%)" />
   </svg>
 );
 
@@ -199,19 +204,80 @@ const StationCard = ({ station, index }: { station: JourneyStation; index: numbe
 const ImpactAccordion = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showArrow, setShowArrow] = useState(false);
+  const [hasStartedAutoScroll, setHasStartedAutoScroll] = useState(false);
+  const autoScrollRef = useRef<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  // Car travels down the timeline track
-  const carY = useTransform(scrollYProgress, [0, 1], ["0%", "92%"]);
+  // Nova travels down the timeline track
+  const novaY = useTransform(scrollYProgress, [0, 1], ["0%", "92%"]);
+  const novaRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const novaGlow = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 1, 0.6]);
 
   // Show scroll arrow once user has seen most stations
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setShowArrow(v > 0.75);
   });
+
+  // Auto-scroll when section enters viewport
+  useEffect(() => {
+    if (hasStartedAutoScroll) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStartedAutoScroll) {
+            setHasStartedAutoScroll(true);
+
+            const el = containerRef.current;
+            if (!el) return;
+
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+
+            const start = window.scrollY;
+            const end = el.getBoundingClientRect().bottom + window.scrollY - window.innerHeight + 80;
+            const distance = end - start;
+            if (distance <= 0) return;
+
+            const duration = Math.min(Math.max(distance * 4, 6000), 18000);
+            const startTime = performance.now();
+
+            const ease = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+            const step = (now: number) => {
+              const elapsed = now - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              window.scrollTo(0, start + distance * ease(progress));
+              if (progress < 1) {
+                autoScrollRef.current = requestAnimationFrame(step);
+              }
+            };
+
+            autoScrollRef.current = requestAnimationFrame(step);
+
+            // Stop auto-scroll on user interaction
+            const stop = () => {
+              if (autoScrollRef.current) cancelAnimationFrame(autoScrollRef.current);
+              window.removeEventListener('wheel', stop);
+              window.removeEventListener('touchstart', stop);
+              window.removeEventListener('keydown', stop);
+            };
+            window.addEventListener('wheel', stop, { passive: true });
+            window.addEventListener('touchstart', stop, { passive: true });
+            window.addEventListener('keydown', stop, { passive: true });
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [hasStartedAutoScroll]);
 
   return (
     <section id="why-auralis" className="py-16 md:py-24 bg-background">
@@ -242,16 +308,13 @@ const ImpactAccordion = () => {
           {/* Vertical track line */}
           <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-primary/5" />
 
-          {/* Moving car */}
+          {/* Moving nova */}
           <motion.div
-            style={{ top: carY }}
-            className="absolute left-1 md:left-2 z-20 pointer-events-none"
+            style={{ top: novaY }}
+            className="absolute left-[9px] md:left-[17px] z-20 pointer-events-none"
           >
-            <motion.div
-              animate={{ rotate: 90 }}
-              className="origin-center"
-            >
-              <CarIcon />
+            <motion.div style={{ rotate: novaRotate, opacity: novaGlow }}>
+              <NovaIcon />
             </motion.div>
           </motion.div>
 
