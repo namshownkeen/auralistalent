@@ -36,7 +36,7 @@ const FounderSection = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex flex-col gap-3"
             >
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify">
                 Years of conversations. Both sides of the table. Candidates searching for meaning. 
                 Companies searching for the right <em className="text-primary not-italic font-medium">human</em>, not just a resume.
               </p>
@@ -51,7 +51,7 @@ const FounderSection = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col gap-3"
             >
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify">
                 Hiring got harder. Great talent hesitates when the name's unfamiliar, 
                 the story unclear, or the risk feels too high.
               </p>
@@ -66,7 +66,7 @@ const FounderSection = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col gap-3"
             >
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify">
                 Backed by FAANG-level experience, candidate evaluation goes beyond resumes, uncovering <em className="text-primary not-italic font-medium">intent, values, and growth trajectory</em> in a single conversation. Strong alignment is surfaced naturally, enabling confident and informed hiring decisions.
               </p>
               <ImpactBubble text="Turning unknown startups into compelling stories" delay={0.4} position="left" size="lg" />
@@ -80,7 +80,7 @@ const FounderSection = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col gap-3 pt-4"
             >
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify">
                 Immigration challenges. Global mobility. Uneven access to opportunity. 
                 Auralis becomes the bridge.
               </p>
