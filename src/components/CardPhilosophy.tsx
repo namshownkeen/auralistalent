@@ -49,7 +49,7 @@ const philosophyCards = [
 ];
 
 const CardBack = () => (
-  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--primary-glow))] flex items-center justify-center backface-hidden rotate-y-180 overflow-hidden shadow-lg">
+  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--primary-glow))] flex items-center justify-center backface-hidden overflow-hidden shadow-lg">
     <div className="absolute inset-0 opacity-20">
       {Array.from({ length: 6 }).map((_, i) => (
         <div
@@ -77,7 +77,7 @@ const CardBack = () => (
 const CardFront = ({ card }: { card: (typeof philosophyCards)[0] }) => {
   const Icon = card.icon;
   return (
-    <div className="absolute inset-0 rounded-2xl backface-hidden overflow-hidden flex flex-col shadow-lg">
+    <div className="absolute inset-0 rounded-2xl backface-hidden rotate-y-180 overflow-hidden flex flex-col shadow-lg">
       <div className="absolute inset-0 bg-[hsl(var(--card))]/80 backdrop-blur-xl" />
       <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))]/10 to-transparent" />
       <div className="absolute inset-[1px] rounded-2xl border border-[hsl(var(--primary))]/20" />
@@ -107,14 +107,15 @@ const CardFront = ({ card }: { card: (typeof philosophyCards)[0] }) => {
   );
 };
 
+type Phase = "enter" | "deck" | "reveal" | "grid";
+
 const CardPhilosophy = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [inView, setInView] = useState(false);
-  const [phase, setPhase] = useState<"enter" | "deck" | "reveal">("enter");
+  const [phase, setPhase] = useState<Phase>("enter");
   const [revealedCount, setRevealedCount] = useState(0);
 
-  // Observe when section enters viewport
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -125,26 +126,21 @@ const CardPhilosophy = () => {
           obs.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  // Orchestrate phases once in view
   useEffect(() => {
     if (!inView) return;
 
-    // Phase 1: Cards fly in one by one (each takes ~0.5s, staggered by 0.35s)
     const enterDuration = philosophyCards.length * 350 + 500;
-
-    // Phase 2: Settle into deck
     const deckTimer = setTimeout(() => setPhase("deck"), enterDuration);
 
-    // Phase 3: Reveal cards one by one
     const revealStart = enterDuration + 800;
     const revealTimers: ReturnType<typeof setTimeout>[] = [];
-    
+
     const startRevealTimer = setTimeout(() => {
       setPhase("reveal");
       philosophyCards.forEach((_, i) => {
@@ -154,15 +150,35 @@ const CardPhilosophy = () => {
       });
     }, revealStart);
 
+    // Grid phase after all reveals complete
+    const gridStart = revealStart + philosophyCards.length * 400 + 600;
+    const gridTimer = setTimeout(() => setPhase("grid"), gridStart);
+
     return () => {
       clearTimeout(deckTimer);
       clearTimeout(startRevealTimer);
+      clearTimeout(gridTimer);
       revealTimers.forEach(clearTimeout);
     };
   }, [inView]);
 
-  const cardW = isMobile ? 180 : 220;
-  const cardH = isMobile ? 270 : 320;
+  const cardW = isMobile ? 160 : 220;
+  const cardH = isMobile ? 240 : 320;
+  const gap = isMobile ? 12 : 24;
+  const cols = isMobile ? 2 : 3;
+  const rows = isMobile ? 3 : 2;
+
+  // Calculate grid positions relative to center of container
+  const gridTotalW = cols * cardW + (cols - 1) * gap;
+  const gridTotalH = rows * cardH + (rows - 1) * gap;
+
+  const getGridPosition = (index: number) => {
+    const col = index % cols;
+    const row = Math.floor(index / cols);
+    const x = col * (cardW + gap) - gridTotalW / 2 + cardW / 2;
+    const y = row * (cardH + gap) - gridTotalH / 2 + cardH / 2;
+    return { x, y };
+  };
 
   return (
     <section
@@ -170,7 +186,6 @@ const CardPhilosophy = () => {
       id="philosophy"
       className="relative py-32 md:py-40 overflow-hidden"
     >
-      {/* Ambient background */}
       <div className="absolute inset-0 bg-[hsl(var(--impact-bg))]" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(var(--primary))]/[0.03] to-transparent" />
 
@@ -194,125 +209,120 @@ const CardPhilosophy = () => {
           </p>
         </motion.div>
 
-        {/* Cards area */}
-        {phase === "reveal" && revealedCount === philosophyCards.length ? (
-          /* Final readable grid */
-          <div className="grid grid-cols-3 gap-5 md:gap-6 mx-auto" style={{ width: 'fit-content' }}>
-            {philosophyCards.map((card, index) => (
-              <motion.div
-                key={card.title}
-                className="relative cursor-pointer group"
-                style={{
-                  width: cardW,
-                  height: cardH,
-                  perspective: 1000,
-                }}
-                initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                whileHover={!isMobile ? { y: -10, scale: 1.03, transition: { duration: 0.25 } } : {}}
-              >
-                <div
-                  className="relative w-full h-full"
-                  style={{ transformStyle: "preserve-3d" }}
+        {/* Cards container — always uses absolute positioning for smooth animation */}
+        <div
+          className="relative mx-auto"
+          style={{
+            width: gridTotalW,
+            height: gridTotalH,
+          }}
+        >
+          {inView &&
+            philosophyCards.map((card, index) => {
+              // Entry: fly in from radial directions
+              const angle = ((index / philosophyCards.length) * 360 + 45) * (Math.PI / 180);
+              const entryDist = isMobile ? 400 : 600;
+              const entryX = Math.cos(angle) * entryDist;
+              const entryY = Math.sin(angle) * entryDist;
+              const entryRotate = (index - 2.5) * 25;
+
+              // Deck: stacked center
+              const deckY = index * -3;
+              const deckRotate = (index - 2.5) * 2;
+
+              // Reveal: fan out with flip
+              const isRevealed = (phase === "reveal" || phase === "grid") && index < revealedCount;
+              const revealSpread = (index - 2.5) * (isMobile ? 30 : 50);
+
+              // Grid: precise positions
+              const gridPos = getGridPosition(index);
+
+              let targetX = 0;
+              let targetY = 0;
+              let targetRotate = 0;
+              let targetScale = 1;
+              let flipY = 0;
+
+              if (phase === "enter" || phase === "deck") {
+                targetX = 0;
+                targetY = deckY;
+                targetRotate = deckRotate;
+                targetScale = 1 - index * 0.015;
+              } else if (phase === "reveal") {
+                targetX = isRevealed ? revealSpread : 0;
+                targetY = isRevealed ? 0 : deckY;
+                targetRotate = isRevealed ? (index - 2.5) * 3 : deckRotate;
+                targetScale = 1;
+                flipY = isRevealed ? 180 : 0;
+              } else if (phase === "grid") {
+                targetX = gridPos.x;
+                targetY = gridPos.y;
+                targetRotate = 0;
+                targetScale = 1;
+                flipY = 180;
+              }
+
+              // Spring-like bounce easing for grid settle
+              const gridTransition = phase === "grid"
+                ? {
+                    duration: 0.9,
+                    delay: index * 0.07,
+                    ease: [0.34, 1.56, 0.64, 1] as [number, number, number, number], // overshoot bounce
+                  }
+                : {
+                    duration: 0.8,
+                    delay: phase === "enter" ? index * 0.35 : 0,
+                    ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+                  };
+
+              return (
+                <motion.div
+                  key={card.title}
+                  className="absolute"
+                  style={{
+                    width: cardW,
+                    height: cardH,
+                    perspective: 1000,
+                    left: "50%",
+                    top: "50%",
+                    marginLeft: -cardW / 2,
+                    marginTop: -cardH / 2,
+                    zIndex: phase === "grid" ? 1 : (phase === "reveal" && isRevealed ? 10 + index : philosophyCards.length - index),
+                  }}
+                  initial={{
+                    x: entryX,
+                    y: entryY,
+                    rotate: entryRotate,
+                    opacity: 0,
+                    scale: 0.6,
+                  }}
+                  animate={{
+                    x: targetX,
+                    y: targetY,
+                    rotate: targetRotate,
+                    opacity: 1,
+                    scale: targetScale,
+                  }}
+                  transition={gridTransition}
+                  whileHover={
+                    phase === "grid" && !isMobile
+                      ? { y: gridPos.y - 8, scale: 1.03, transition: { duration: 0.25 } }
+                      : {}
+                  }
                 >
-                  <CardFront card={card} />
-                  <CardBack />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          /* Animation area: enter → deck → reveal */
-          <div
-            className="relative flex items-center justify-center"
-            style={{ height: cardH + 40 }}
-          >
-            {inView &&
-              philosophyCards.map((card, index) => {
-                // Entry: fly in from random directions
-                const angle = ((index / philosophyCards.length) * 360 + 45) * (Math.PI / 180);
-                const entryDist = isMobile ? 400 : 600;
-                const entryX = Math.cos(angle) * entryDist;
-                const entryY = Math.sin(angle) * entryDist;
-                const entryRotate = (index - 2.5) * 25 + Math.random() * 10;
-
-                // Deck: stacked with slight offsets
-                const deckY = index * -3;
-                const deckRotate = (index - 2.5) * 2;
-
-                // Reveal: flip one by one
-                const isRevealed = phase === "reveal" && index < revealedCount;
-                const revealSpread = (index - 2.5) * (isMobile ? 35 : 55);
-
-                let targetX = 0;
-                let targetY = 0;
-                let targetRotate = 0;
-                let targetScale = 1;
-                let flipY = 0;
-
-                if (phase === "enter") {
-                  targetX = 0;
-                  targetY = deckY;
-                  targetRotate = deckRotate;
-                  targetScale = 1 - index * 0.015;
-                } else if (phase === "deck") {
-                  targetX = 0;
-                  targetY = deckY;
-                  targetRotate = deckRotate;
-                  targetScale = 1 - index * 0.015;
-                } else if (phase === "reveal") {
-                  targetX = isRevealed ? revealSpread : 0;
-                  targetY = isRevealed ? 0 : deckY;
-                  targetRotate = isRevealed ? (index - 2.5) * 3 : deckRotate;
-                  targetScale = 1;
-                  flipY = isRevealed ? 180 : 0;
-                }
-
-                return (
                   <motion.div
-                    key={card.title}
-                    className="absolute"
-                    style={{
-                      width: cardW,
-                      height: cardH,
-                      perspective: 1000,
-                      zIndex: phase === "reveal" && isRevealed ? 10 + index : philosophyCards.length - index,
-                    }}
-                    initial={{
-                      x: entryX,
-                      y: entryY,
-                      rotate: entryRotate,
-                      opacity: 0,
-                      scale: 0.6,
-                    }}
-                    animate={{
-                      x: targetX,
-                      y: targetY,
-                      rotate: targetRotate,
-                      opacity: 1,
-                      scale: targetScale,
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      delay: phase === "enter" ? index * 0.35 : 0,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
+                    className="relative w-full h-full"
+                    style={{ transformStyle: "preserve-3d" }}
+                    animate={{ rotateY: flipY }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
                   >
-                    <motion.div
-                      className="relative w-full h-full"
-                      style={{ transformStyle: "preserve-3d" }}
-                      animate={{ rotateY: flipY }}
-                      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-                    >
-                      <CardBack />
-                      <CardFront card={card} />
-                    </motion.div>
+                    <CardBack />
+                    <CardFront card={card} />
                   </motion.div>
-                );
-              })}
-          </div>
-        )}
+                </motion.div>
+              );
+            })}
+        </div>
 
         {/* Status text */}
         <AnimatePresence mode="wait">
@@ -338,7 +348,7 @@ const CardPhilosophy = () => {
               Shuffling The Deck...
             </motion.p>
           )}
-          {phase === "reveal" && revealedCount < philosophyCards.length && (
+          {phase === "reveal" && (
             <motion.p
               key="reveal"
               initial={{ opacity: 0 }}
