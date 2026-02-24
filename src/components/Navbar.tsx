@@ -64,12 +64,6 @@ const Navbar = () => {
               Contact
             </a>
           </Button>
-          <Button 
-            size="sm" 
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            Get Started
-          </Button>
         </div>
       </nav>
     </motion.header>
