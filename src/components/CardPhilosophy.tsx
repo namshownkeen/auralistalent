@@ -197,7 +197,7 @@ const CardPhilosophy = () => {
         {/* Cards area */}
         {phase === "reveal" && revealedCount === philosophyCards.length ? (
           /* Final readable grid */
-          <div className="grid grid-cols-2 gap-5 md:gap-6 max-w-[500px] mx-auto justify-items-center">
+          <div className="grid grid-cols-3 gap-5 md:gap-6 mx-auto" style={{ width: 'fit-content' }}>
             {philosophyCards.map((card, index) => (
               <motion.div
                 key={card.title}
