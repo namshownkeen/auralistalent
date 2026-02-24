@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Twitter, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -36,21 +36,7 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               Precision hiring for the companies shaping what's next.
             </p>
-            {/* Social links */}
-            <div className="flex items-center gap-4">
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
-            </div>
+            {/* Social links - add actual URLs when available */}
           </div>
 
           {/* Link columns */}
@@ -97,7 +83,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="tel:+1234567890" 
+                  href="mailto:alek@auralistalent.com" 
                   className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors group"
                 >
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
