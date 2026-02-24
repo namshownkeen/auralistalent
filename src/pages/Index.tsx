@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FounderSection from "@/components/FounderSection";
 import ImpactAccordion from "@/components/ImpactAccordion";
+import CardPhilosophy from "@/components/CardPhilosophy";
 import Approach from "@/components/Approach";
 import Services from "@/components/Services";
 import Testimonial from "@/components/Testimonial";
@@ -16,6 +17,7 @@ const Index = () => {
       <Hero />
       <FounderSection />
       <ImpactAccordion />
+      <CardPhilosophy />
       <Approach />
       <Services />
       <Testimonial />

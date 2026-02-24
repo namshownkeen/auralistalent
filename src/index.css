@@ -141,6 +141,15 @@
     text-wrap: balance;
   }
 
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
   /* Radial gradient utility */
   .bg-gradient-radial {
     background: radial-gradient(circle at center, var(--tw-gradient-stops));
