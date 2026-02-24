@@ -92,7 +92,7 @@ const stations: JourneyStation[] = [
     subtitle: "Our Sweet Spot",
     tagline: "Intentional Growth",
     bubbles: [
-      { icon: Users, text: "Quality-Critical Hires" },
+      { icon: Users, text: "Flexible To Your Needs" },
       { icon: TrendingUp, text: "Scaling Carefully" },
       { icon: Star, text: "High-Impact Positions" },
       { icon: BarChart3, text: "Quality Over Volume" },

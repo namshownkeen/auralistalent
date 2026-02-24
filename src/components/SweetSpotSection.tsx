@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import { Users, TrendingUp, Star, BarChart3 } from "lucide-react";
+import { Users, Globe, MessageCircle, Clock, Star, TrendingUp } from "lucide-react";
 
 const criteria = [
-  { icon: Users, text: "Quality-Critical Hires At Any Scale" },
-  { icon: TrendingUp, text: "Scaling carefully" },
-  { icon: Star, text: "Filling high-impact positions" },
-  { icon: BarChart3, text: "Wanting quality over volume" },
+  { icon: Users, text: "Flexible Hiring, Scaled To Your Needs" },
+  { icon: Clock, text: "Available Around The Clock To Support You" },
+  { icon: MessageCircle, text: "Clear, Well-Communicated Process End To End" },
+  { icon: Globe, text: "Global Visa Expertise Across All Categories" },
+  { icon: TrendingUp, text: "Scaling With Intention, Not Pressure" },
+  { icon: Star, text: "Filling High-Impact Positions Worldwide" },
 ];
 
 const SweetSpotSection = () => {
