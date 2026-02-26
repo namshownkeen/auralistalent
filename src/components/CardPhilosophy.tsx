@@ -337,7 +337,7 @@ const CardPhilosophy = () => {
                     animate={{ rotateY: flipY }}
                     transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
                   >
-                    {flipY < 180 && <CardBack />}
+                    {!isRevealed && <CardBack />}
                     <CardFront card={card} />
                   </motion.div>
                 </motion.div>
