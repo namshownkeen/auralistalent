@@ -162,21 +162,42 @@ const CardPhilosophy = () => {
     };
   }, [inView]);
 
-  const cardW = isMobile ? 160 : 220;
-  const cardH = isMobile ? 240 : 320;
-  const gap = isMobile ? 12 : 24;
-  const cols = isMobile ? 2 : 3;
-  const rows = isMobile ? 3 : 2;
+  // Responsive card sizes and grid config
+  const [containerWidth, setContainerWidth] = useState(() => 
+    typeof window !== 'undefined' ? Math.min(window.innerWidth - 48, 1200) : 800
+  );
+  
+  useEffect(() => {
+    const updateWidth = () => {
+      const container = sectionRef.current?.querySelector('.container') as HTMLElement | null;
+      const w = container?.clientWidth ?? Math.min(window.innerWidth - 48, 1200);
+      setContainerWidth(w);
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
-  // Calculate grid positions relative to center of container
-  const gridTotalW = cols * cardW + (cols - 1) * gap;
-  const gridTotalH = rows * cardH + (rows - 1) * gap;
+  // Determine columns based on available width
+  const getGridConfig = () => {
+    if (containerWidth < 400) return { cols: 2, cardW: Math.max(120, Math.min(150, (containerWidth - 12) / 2)), gap: 12 };
+    if (containerWidth < 600) return { cols: 2, cardW: Math.max(140, Math.min(170, (containerWidth - 16) / 2)), gap: 16 };
+    if (containerWidth < 900) return { cols: 3, cardW: Math.max(160, Math.min(200, (containerWidth - 48) / 3)), gap: 20 };
+    return { cols: 3, cardW: Math.max(180, Math.min(240, (containerWidth - 56) / 3)), gap: 28 };
+  };
+
+  const { cols, cardW, gap: gridGap } = getGridConfig();
+  const cardH = Math.round(cardW * 1.45);
+  const rows = Math.ceil(philosophyCards.length / cols);
+
+  const gridTotalW = cols * cardW + (cols - 1) * gridGap;
+  const gridTotalH = rows * cardH + (rows - 1) * gridGap;
 
   const getGridPosition = (index: number) => {
     const col = index % cols;
     const row = Math.floor(index / cols);
-    const x = col * (cardW + gap) - gridTotalW / 2 + cardW / 2;
-    const y = row * (cardH + gap) - gridTotalH / 2 + cardH / 2;
+    const x = col * (cardW + gridGap) - gridTotalW / 2 + cardW / 2;
+    const y = row * (cardH + gridGap) - gridTotalH / 2 + cardH / 2;
     return { x, y };
   };
 
