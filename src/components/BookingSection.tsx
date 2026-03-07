@@ -12,7 +12,7 @@ const SLOTS = [
   { id: 2, time: "8:00 AM", label: "Central Time" },
 ];
 
-const ToggleGroup = <T extends string>({
+const ToggleGroup = ({
   options,
   value,
   onChange,
