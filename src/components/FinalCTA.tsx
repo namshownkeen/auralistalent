@@ -31,7 +31,7 @@ const FinalCTA = () => {
               </h2>
               
               <p className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300">
-                No Pitch. No Pressure. Just A Real Conversation About What You're Building.
+                Get founder-level guidance on where your talent fits best.
               </p>
               
               <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all duration-300 mb-6">
