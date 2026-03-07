@@ -281,7 +281,7 @@ const BookingSection = () => {
                     <ToggleGroup
                       value={contactPref}
                       onChange={(v) => {
-                        setContactPref(v);
+                        setContactPref(v as ContactPref);
                         setContact("");
                       }}
                       options={[
