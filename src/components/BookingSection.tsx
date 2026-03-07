@@ -138,10 +138,12 @@ const TimeSlotCarousel = ({
   selectedSlot,
   onSelect,
   booked,
+  onConfirm,
 }: {
   selectedSlot: number | null;
   onSelect: (id: number) => void;
   booked: boolean;
+  onConfirm: () => void;
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
