@@ -17,9 +17,9 @@ const ToggleGroup = ({
   value,
   onChange,
 }: {
-  options: { value: T; label: string; icon: React.ReactNode }[];
-  value: T;
-  onChange: (v: T) => void;
+  options: { value: string; label: string; icon: React.ReactNode }[];
+  value: string;
+  onChange: (v: string) => void;
 }) => (
   <div className="flex rounded-xl border border-border/40 overflow-hidden">
     {options.map((opt) => (
