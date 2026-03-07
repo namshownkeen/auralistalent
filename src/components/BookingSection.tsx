@@ -265,7 +265,7 @@ const BookingSection = () => {
                     </label>
                     <ToggleGroup
                       value={bookingType}
-                      onChange={setBookingType}
+                      onChange={(v) => setBookingType(v as BookingType)}
                       options={[
                         { value: "personal", label: "Personal", icon: <User className="w-3.5 h-3.5" /> },
                         { value: "company", label: "Company", icon: <Building2 className="w-3.5 h-3.5" /> },
