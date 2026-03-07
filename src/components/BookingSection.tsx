@@ -228,6 +228,7 @@ const TimeSlotCarousel = ({
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={onConfirm}
                 className="px-5 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg shadow-glow hover:brightness-110 transition-all"
               >
                 Confirm
