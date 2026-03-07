@@ -6,6 +6,7 @@ import CardPhilosophy from "@/components/CardPhilosophy";
 import Approach from "@/components/Approach";
 import Services from "@/components/Services";
 import Testimonial from "@/components/Testimonial";
+import BookingSection from "@/components/BookingSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import QuickContact from "@/components/QuickContact";
