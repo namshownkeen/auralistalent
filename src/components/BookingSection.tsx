@@ -297,15 +297,8 @@ const BookingSection = () => {
                 }
               }}
               booked={booked}
+              onConfirm={handleConfirm}
             />
-
-            {/* Confirm handler wired to confirmation bar button */}
-            {selectedSlot && !booked && (
-              <div className="mt-0">
-                {/* The confirm button is inside TimeSlotCarousel; 
-                    we wire it via a click handler on the section level */}
-              </div>
-            )}
           </div>
         </div>
       </div>
