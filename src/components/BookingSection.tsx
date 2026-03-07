@@ -330,7 +330,6 @@ const BookingSection = () => {
               )}
             </AnimatePresence>
           </motion.div>
-        </div>
 
         {/* Footer label */}
         <p className="text-center text-muted-foreground/50 text-xs mt-16 tracking-wide">
