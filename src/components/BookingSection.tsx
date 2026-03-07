@@ -153,41 +153,7 @@ const BookingSection = () => {
         <div className="absolute bottom-1/4 right-1/3 w-56 h-56 bg-primary/3 rounded-full blur-[80px]" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left — Founder Highlight */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <span className="text-xs font-medium tracking-widest uppercase text-primary/70 mb-4 block">
-              Founder Conversation
-            </span>
-
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 font-display">
-              Chat with Alek
-            </h2>
-
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Get founder-level guidance on where your talent fits best.
-            </p>
-
-            <div className="relative inline-block mb-1">
-              <p className="text-foreground font-semibold text-base">Alek</p>
-              <motion.div
-                className="h-[2px] bg-gradient-to-r from-primary via-primary-glow to-transparent rounded-full mt-1"
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              />
-            </div>
-            <p className="text-muted-foreground text-sm">
-              Founder, Auralis Talent Xplore
-            </p>
-          </motion.div>
+      <div className="container mx-auto px-6 relative z-10 max-w-xl">
 
           {/* Right — Slot Cards + Form */}
           <motion.div
