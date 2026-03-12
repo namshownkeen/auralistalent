@@ -33,7 +33,7 @@ const AmbientBubbles = () => {
   const [isMobile, setIsMobile] = useState(false);
   const idRef = useRef(0);
   const contentRef = useRef(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
